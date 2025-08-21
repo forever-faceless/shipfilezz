@@ -282,9 +282,21 @@ const Receiver: React.FC<ReceiverProps> = () => {
                   if (writerRef.current) {
                     console.log("📥 Flushing remaining chunks before close...");
 
-                    // ✅ ensure all pending writes resolve
-                    await writerRef.current.close();
-                    writerRef.current = null;
+                    await new Promise((resolve, reject) => {
+                      const interval = setInterval(async () => {
+                        if (!writerRef.current) {
+                          console.error("Writer is not initialized");
+                          reject(new Error("Writer is not initialized"));
+                          return;
+                        }
+                        if (dataChannel.bufferedAmount === 0) {
+                          clearInterval(interval);
+                          await writerRef.current.close();
+                          writerRef.current = null;
+                          resolve(true);
+                        }
+                      }, 100);
+                    });
 
                     console.log("✅ File fully written to disk");
                   }
