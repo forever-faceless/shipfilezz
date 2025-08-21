@@ -14,7 +14,7 @@ const isLocalhost =
 
 streamSaver.mitm = isLocalhost
   ? "http://localhost:5173/StreamSaver/mitm.html"
-  : "https://shipfilezz-iuhj.vercel.app/StreamSaver/mitm.html";
+  : "https://www.shipfilez.app/StreamSaver/mitm.html";
 
 interface ReceiverProps {
   shareCode?: string;
