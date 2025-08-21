@@ -118,7 +118,7 @@ const Receiver: React.FC<ReceiverProps> = () => {
       if (parsedMessage.event === "EVENT_OFFER") {
         const rtcConfiguration = {
           iceServers: [
-            { urls: "stun:stun.l.google.com:19302" },
+            { urls: "stun:stun.relay.metered.ca:80" },
             {
               urls: "turn:global.relay.metered.ca:80",
               username: import.meta.env.VITE_TURN_USERNAME,

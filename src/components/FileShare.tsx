@@ -53,7 +53,7 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
   const createOffer = async () => {
     const rtcConfiguration = {
       iceServers: [
-        { urls: "stun:stun.l.google.com:19302" },
+        { urls: "stun:stun.relay.metered.ca:80" },
         {
           urls: "turn:global.relay.metered.ca:80",
           username: import.meta.env.VITE_TURN_USERNAME,
@@ -245,6 +245,28 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
 
     dataChannel.onerror = (error) => {
       console.error("Data channel error:", error);
+    };
+
+    let isNegotiating = false;
+    pc.onnegotiationneeded = async () => {
+      if (isNegotiating) return; // prevents overlapping negotiation
+      isNegotiating = true;
+      try {
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+        socket.send(
+          JSON.stringify({
+            event: "EVENT_OFFER",
+            shareCode: shareCodeRef.current,
+            clientId: clientCodeRef.current,
+            offer,
+          })
+        );
+      } catch (error) {
+        console.error("Error during WebRTC negotiation:", error);
+      } finally {
+        isNegotiating = false; // allows future negotiations
+      }
     };
 
     dataChannel.onclose = () => {
