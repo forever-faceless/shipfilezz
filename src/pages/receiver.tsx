@@ -7,9 +7,11 @@ interface typeFileDetail {
   fileName: string[];
   fileLength: number;
 }
+
 const isLocalhost =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1";
+
 streamSaver.mitm = isLocalhost
   ? "http://localhost:5173/StreamSaver/mitm.html"
   : "https://shipfilez.app/StreamSaver/mitm.html";
@@ -37,32 +39,26 @@ const Receiver: React.FC<ReceiverProps> = () => {
     null
   );
   const dataChannelRef = useRef<RTCDataChannel | null>(null);
-  const isProcessingRef = useRef<boolean>(false);
   const receivedBytesRef = useRef<number>(0);
   const totalFileSizeRef = useRef<number>(0);
-  const ackIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const ackCounterRef = useRef<number>(0);
+  const ackThreshold = 1024 * 1024; // 1 MB
 
   const requestHostToSendOffer = async () => {
     console.log("Requesting host to send offer...");
-    const requestHostToSendOfferMsg = {
-      event: "EVENT_REQUEST_HOST_TO_SEND_OFFER",
-      shareCode: shareCodeRef.current,
-      clientId,
-    };
     const socket = socketRef.current;
     if (!socket) return;
-    socket.send(JSON.stringify(requestHostToSendOfferMsg));
+    socket.send(
+      JSON.stringify({
+        event: "EVENT_REQUEST_HOST_TO_SEND_OFFER",
+        shareCode: shareCodeRef.current,
+        clientId,
+      })
+    );
   };
 
-  const sendAck = () => {
-    if (dataChannelRef.current?.readyState === "open") {
-      dataChannelRef.current.send(
-        JSON.stringify({ type: "ack", received: receivedBytesRef.current })
-      );
-    }
-  };
-
-  const cleanup = () => {
+  const cleanup = (msg: string) => {
+    console.log("Cleanup function called:", msg);
     if (writerRef.current) {
       writerRef.current.close().catch(console.error);
       writerRef.current = null;
@@ -75,17 +71,13 @@ const Receiver: React.FC<ReceiverProps> = () => {
       clearInterval(heartbeatIntervalRef.current);
       heartbeatIntervalRef.current = null;
     }
-    if (ackIntervalRef.current) {
-      clearInterval(ackIntervalRef.current);
-      ackIntervalRef.current = null;
-    }
     if (dataChannelRef.current) {
       dataChannelRef.current.close();
       dataChannelRef.current = null;
     }
-    isProcessingRef.current = false;
     receivedBytesRef.current = 0;
     totalFileSizeRef.current = 0;
+    ackCounterRef.current = 0;
   };
 
   useEffect(() => {
@@ -126,9 +118,7 @@ const Receiver: React.FC<ReceiverProps> = () => {
       if (parsedMessage.event === "EVENT_OFFER") {
         const rtcConfiguration = {
           iceServers: [
-            {
-              urls: "stun:stun.relay.metered.ca:80",
-            },
+            { urls: "stun:stun.relay.metered.ca:80" },
             {
               urls: "turn:global.relay.metered.ca:80",
               username: "096620311d4630e63e7aa164",
@@ -154,7 +144,7 @@ const Receiver: React.FC<ReceiverProps> = () => {
 
         clientCodeRef.current = parsedMessage.clientId;
         shareCodeRef.current = parsedMessage.sharedCode;
-        cleanup();
+        cleanup("Cleaning up before setting up new connection...");
 
         const pc = new RTCPeerConnection(rtcConfiguration);
         pcRef.current = pc;
@@ -174,13 +164,17 @@ const Receiver: React.FC<ReceiverProps> = () => {
         };
 
         pc.onconnectionstatechange = () => {
-          console.log("Receiver connection state:", pc.connectionState);
-          if (
-            pc.connectionState === "failed" ||
-            pc.connectionState === "disconnected"
-          ) {
-            cleanup();
+          console.log(
+            "Receiver connection state: PC STATE onConnectionStateCHange",
+            pc.connectionState
+          );
+          if (pc.connectionState === "failed") {
+            console.log(
+              "Receiver connection failed, inside the pc.connectionState inside onConnectionstateChange cleaning up..."
+            );
+            cleanup("Connection failed inside onConnectionStateChange");
           }
+          // ⚠️ Do NOT cleanup immediately on "disconnected" — it can recover
         };
 
         pc.oniceconnectionstatechange = () => {
@@ -197,108 +191,127 @@ const Receiver: React.FC<ReceiverProps> = () => {
             fileSize: number;
           } | null = null;
 
-          dataChannel.onmessage = async (event: MessageEvent) => {
-            if (isProcessingRef.current) {
-              // If we're still processing previous data, skip this message
-              return;
-            }
+          // local queue for chunks
+          const chunkQueue: ArrayBuffer[] = [];
+          let writing = false;
 
-            isProcessingRef.current = true;
-            const message = event.data;
-
+          async function processQueue() {
+            if (writing || !writerRef.current) return;
+            writing = true;
             try {
-              // 🔹 Case 1: Metadata message
-              if (typeof message === "string") {
-                try {
-                  const parsed = JSON.parse(message);
+              while (chunkQueue.length > 0 && writerRef.current) {
+                const chunk = chunkQueue.shift()!;
+                await writerRef.current.write(new Uint8Array(chunk));
+                receivedBytesRef.current += chunk.byteLength;
 
-                  if (parsed.type === "meta") {
-                    receivedFileMetadata = {
-                      fileName: parsed.fileName,
-                      fileSize: parsed.fileSize,
-                    };
-                    totalFileSizeRef.current = parsed.fileSize;
+                if (receivedFileMetadata) {
+                  const percent = (
+                    (receivedBytesRef.current / receivedFileMetadata.fileSize) *
+                    100
+                  ).toFixed(2);
+                  setPercentage(percent);
+                }
 
-                    // Close previous writer if it exists
-                    if (writerRef.current) {
-                      await writerRef.current.close();
+                // batch ACKs
+                ackCounterRef.current += chunk.byteLength;
+                // Modify the ACK logic:
+                if (ackCounterRef.current >= ackThreshold) {
+                  try {
+                    if (dataChannel.readyState === "open") {
+                      dataChannel.send(
+                        JSON.stringify({
+                          type: "ack",
+                          received: receivedBytesRef.current,
+                        })
+                      );
+                      ackCounterRef.current = 0;
                     }
-
-                    // ✅ Create writable stream with StreamSaver
-                    const fileStream = streamSaver.createWriteStream(
-                      parsed.fileName,
-                      { size: parsed.fileSize }
-                    );
-                    writerRef.current = fileStream.getWriter();
-                    receivedBytesRef.current = 0;
-
-                    console.log("📂 Ready to receive file:", parsed.fileName);
-
-                    // Send ready signal to start transfer
-                    dataChannel.send(JSON.stringify({ type: "ready" }));
-                  } else if (parsed.type === "done") {
-                    if (writerRef.current) {
-                      await writerRef.current.close();
-                      console.log("✅ File transfer completed");
-                      writerRef.current = null;
-                    }
+                  } catch (error) {
+                    console.error("Failed to send ACK:", error);
                   }
-                } catch (err) {
-                  console.error("Error parsing JSON control message:", err);
                 }
               }
+              // final ack when file finishes
+              if (
+                receivedFileMetadata &&
+                receivedBytesRef.current >= receivedFileMetadata.fileSize
+              ) {
+                dataChannel.send(
+                  JSON.stringify({
+                    type: "ack",
+                    received: receivedBytesRef.current,
+                    final: true,
+                  })
+                );
+              }
+            } catch (err) {
+              console.error("Error writing chunk:", err);
+            } finally {
+              writing = false;
+            }
+          }
 
-              // 🔹 Case 2: File chunk
-              else if (message instanceof ArrayBuffer) {
-                if (writerRef.current) {
-                  try {
-                    await writerRef.current.write(new Uint8Array(message));
-                    receivedBytesRef.current += message.byteLength;
+          dataChannel.onmessage = async (event: MessageEvent) => {
+            const message = event.data;
+            try {
+              if (typeof message === "string") {
+                const parsed = JSON.parse(message);
+                if (parsed.type === "meta") {
+                  receivedFileMetadata = {
+                    fileName: parsed.fileName,
+                    fileSize: parsed.fileSize,
+                  };
+                  totalFileSizeRef.current = parsed.fileSize;
 
-                    if (receivedFileMetadata) {
-                      const percent = (
-                        (receivedBytesRef.current /
-                          receivedFileMetadata.fileSize) *
-                        100
-                      ).toFixed(2);
-                      setPercentage(percent);
+                  if (writerRef.current) {
+                    await writerRef.current.close();
+                  }
+
+                  const fileStream = streamSaver.createWriteStream(
+                    parsed.fileName,
+                    {
+                      size: parsed.fileSize,
                     }
+                  );
+                  writerRef.current = fileStream.getWriter();
+                  receivedBytesRef.current = 0;
+                  ackCounterRef.current = 0;
 
-                    // Send immediate ACK for flow control
-                    sendAck();
-                  } catch (err) {
-                    console.error("Error writing chunk:", err);
+                  console.log("📂 Ready to receive file:", parsed.fileName);
+                  dataChannel.send(JSON.stringify({ type: "ready" }));
+                } else if (parsed.type === "done") {
+                  if (writerRef.current) {
+                    await writerRef.current.close();
+                    console.log("✅ File transfer completed");
+                    writerRef.current = null;
                   }
                 }
+              } else if (message instanceof ArrayBuffer) {
+                chunkQueue.push(message);
+                processQueue();
               }
             } catch (error) {
               console.error("Error processing message:", error);
-            } finally {
-              isProcessingRef.current = false;
             }
           };
 
           dataChannel.onerror = (error) => {
             console.error("Data channel error:", error);
-            isProcessingRef.current = false;
           };
 
           dataChannel.onclose = () => {
-            console.log("Data channel closed");
-            isProcessingRef.current = false;
+            console.log(
+              "Data channel closed (reason: receiver cleanup)",
+              pc.connectionState
+            );
             if (writerRef.current) {
               writerRef.current.close().catch(console.error);
               writerRef.current = null;
             }
           };
-
-          dataChannel.onbufferedamountlow = () => {
-            console.log("Data channel buffer low");
-          };
         };
 
         try {
-          // Set the remote offer and create the answer
           await pc.setRemoteDescription(parsedMessage.offer);
           const answer = await pc.createAnswer();
           await pc.setLocalDescription(answer);
@@ -315,7 +328,7 @@ const Receiver: React.FC<ReceiverProps> = () => {
           }
         } catch (error) {
           console.error("Error during WebRTC negotiation:", error);
-          cleanup();
+          cleanup("Error during WebRTC negotiation");
         }
       }
 
@@ -332,22 +345,24 @@ const Receiver: React.FC<ReceiverProps> = () => {
     };
 
     socket.onclose = () => {
-      setIsConnected(false);
-      cleanup();
+      console.warn("WebSocket connection closed, but keeping WebRTC alive...");
     };
 
     socket.onerror = (error) => {
       console.error("WebSocket error:", error);
-      cleanup();
+      console.log("WebSocket connection closed cleaning up...");
+      cleanup("WebSocket error");
     };
 
     return () => {
-      cleanup();
+      console.log("WebSocket connection closed cleaning up...");
+      cleanup("Cleanup on component unmount");
       if (socketRef.current) {
         socketRef.current.close();
         socketRef.current = null;
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shareCode]);
 
   const ProgressBar: React.FC<{ value: number }> = ({ value }) => (
@@ -369,14 +384,11 @@ const Receiver: React.FC<ReceiverProps> = () => {
     >
       {/* Left Section */}
       <div className="flex w-full flex-col items-start justify-center gap-10 px-10 md:w-1/2 md:px-10">
-        {/* Connection Status */}
         <h2 className="text-2xl font-extrabold text-white md:hidden">
           Receive Files Seamlessly
         </h2>
         <p className="text-base leading-relaxed text-gray-300 md:hidden lg:text-lg">
-          Share and receive files instantly without interruptions. Ensure
-          private, secure, and blazing-fast file transfers with our peer-to-peer
-          technology..
+          Share and receive files instantly without interruptions.
         </p>
         <div className="text-center text-lg font-semibold text-white sm:text-xl">
           {isConnected ? (
@@ -417,7 +429,7 @@ const Receiver: React.FC<ReceiverProps> = () => {
           Download
         </button>
 
-        {/* Percentage Progress */}
+        {/* Progress */}
         <div className="flex w-full flex-col items-center justify-center gap-4 text-lg font-semibold text-white sm:text-2xl md:w-3/4">
           <ProgressBar value={Number(percentage)} />
           {percentage}%
@@ -426,11 +438,9 @@ const Receiver: React.FC<ReceiverProps> = () => {
         {Number(percentage) === 100 && (
           <div className="text-green-500">
             <p className="text-lg font-semibold">File Download Complete!</p>
-            <p className="text-sm">You can now access your files.</p>
           </div>
         )}
 
-        {/* Warning / Disconnection Alert */}
         {!isConnected && (
           <div className="mt-4 rounded-lg bg-yellow-100 px-4 py-3 text-yellow-800 shadow-md">
             <p className="font-semibold">⚠ Connection Lost</p>
@@ -446,42 +456,6 @@ const Receiver: React.FC<ReceiverProps> = () => {
             </p>
           </div>
         )}
-      </div>
-
-      {/* Right Section */}
-      <div className="hidden w-1/2 flex-col items-start justify-center gap-8 px-10 md:flex">
-        {/* Title */}
-        <h2 className="text-3xl font-extrabold text-white lg:text-4xl">
-          Receive Files Seamlessly
-        </h2>
-        {/* Description */}
-        <p className="text-base leading-relaxed text-gray-300 lg:text-lg">
-          Share and receive files instantly without interruptions. Ensure
-          private, secure, and blazing-fast file transfers with our peer-to-peer
-          technology. Whether it&apos;s documents, media, or any data, our
-          platform has got you covered.
-        </p>
-        {/* Additional Features */}
-        <div className="flex flex-col gap-4 text-sm text-gray-200 lg:text-base">
-          <div className="flex items-center gap-2">
-            <span role="img" aria-label="secure">
-              🔒
-            </span>
-            <span>100% End-to-End Encryption</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span role="img" aria-label="speed">
-              ⚡
-            </span>
-            <span>Fast and Reliable Transfers</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span role="img" aria-label="file">
-              📂
-            </span>
-            <span>No File Size Restrictions</span>
-          </div>
-        </div>
       </div>
     </div>
   );

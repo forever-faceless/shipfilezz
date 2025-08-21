@@ -50,25 +50,6 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
     );
   };
 
-  const getOptimalChunkSize = (fileSize: number) => {
-    if (fileSize > 2 * 1024 * 1024 * 1024) {
-      // >2GB
-      return 256 * 1024; // 256KB
-    } else if (fileSize > 1 * 1024 * 1024 * 1024) {
-      // >1GB
-      return 128 * 1024; // 128KB
-    }
-    return 64 * 1024; // 64KB
-  };
-
-  const recoverTransfer = async () => {
-    if (pcRef.current && pcRef.current.connectionState === "failed") {
-      console.log("Attempting to recover transfer...");
-      setTransferError(null);
-      await createOffer();
-    }
-  };
-
   const createOffer = async () => {
     const rtcConfiguration = {
       iceServers: [
@@ -102,159 +83,156 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
     const pc = new RTCPeerConnection(rtcConfiguration);
     pcRef.current = pc;
 
-    // create a data channel
     const dataChannel = pc.createDataChannel("fileTransfer", { ordered: true });
     dataChannel.binaryType = "arraybuffer";
 
-    // ---- Backpressure setup ----
-    dataChannel.bufferedAmountLowThreshold = 8 * 1024 * 1024; // 8 MB threshold
+    // ---- Config ----
+    const CHUNK_SIZE = 16 * 1024; // 16 KB
+    dataChannel.bufferedAmountLowThreshold = 64 * 1024; // 64 KB
+    const BATCH_SIZE = 1024 * 1024; // 1 MB (must match receiver ACK threshold)
 
-    async function sendArrayBuffer(buf: ArrayBuffer) {
-      const MAX_RETRIES = 10;
-      const RETRY_DELAY = 100; // ms
-      let retries = 0;
-
-      while (dataChannel.bufferedAmount > 8 * 1024 * 1024) {
-        if (retries >= MAX_RETRIES) {
-          throw new Error("Backpressure timeout - buffer not draining");
-        }
-
-        console.log(
-          "⏸ Waiting, buffered:",
-          (dataChannel.bufferedAmount / 1024 / 1024).toFixed(2),
-          "MB"
-        );
-
-        await new Promise<void>((resolve) => {
-          const timeout = setTimeout(() => {
-            resolve();
-          }, RETRY_DELAY);
-
-          const bufferedAmountLowHandler = () => {
-            clearTimeout(timeout);
-            resolve();
-          };
-
-          dataChannel.addEventListener(
-            "bufferedamountlow",
-            bufferedAmountLowHandler as EventListener,
-            { once: true }
-          );
-        });
-
-        retries++;
-      }
-
-      try {
-        dataChannel.send(buf);
-        console.log(
-          "📤 Sent chunk, buffered now:",
-          (dataChannel.bufferedAmount / 1024 / 1024).toFixed(2),
-          "MB"
-        );
-      } catch (error) {
-        console.error("Failed to send chunk:", error);
-        throw error;
-      }
-    }
-
-    // sender state
+    // ---- Transfer state ----
     let currentFileIndex = 0;
     let offset = 0;
+    let sending = false;
+    let waitingForAck = false;
+    let waitingForReady = true; // <- start gated until receiver sends "ready"
+    let bytesSinceLastAck = 0;
 
     const sendMetadata = (file: File) => {
-      const maxChunkSize = getOptimalChunkSize(file.size);
       dataChannel.send(
         JSON.stringify({
           type: "meta",
           fileName: file.name,
           fileSize: file.size,
-          chunkSize: maxChunkSize,
+          chunkSize: CHUNK_SIZE,
         })
       );
     };
 
-    const sendNextChunk = async () => {
+    const pump = async () => {
+      if (
+        sending ||
+        waitingForAck ||
+        waitingForReady ||
+        dataChannel.bufferedAmount > dataChannel.bufferedAmountLowThreshold
+      ) {
+        return;
+      }
+      sending = true;
+
       try {
-        const file = files[currentFileIndex];
-        if (!file) {
-          setIsTransferComplete(true);
-          return;
-        }
-
-        if (offset >= file.size) {
-          // finished this file
-          dataChannel.send(JSON.stringify({ type: "done" }));
-          currentFileIndex++;
-          offset = 0;
-          setProgress(0);
-
-          if (currentFileIndex < files.length) {
-            sendMetadata(files[currentFileIndex]);
-          } else {
+        while (
+          pc.connectionState === "connected" &&
+          dataChannel.readyState === "open" &&
+          !waitingForAck &&
+          !waitingForReady &&
+          dataChannel.bufferedAmount <= dataChannel.bufferedAmountLowThreshold
+        ) {
+          const file = files[currentFileIndex];
+          if (!file) {
             setIsTransferComplete(true);
-            console.log("All files transferred successfully");
+            return;
           }
-          return;
+
+          // file finished: signal done, advance, send next meta, wait for "ready"
+          if (offset >= file.size) {
+            dataChannel.send(JSON.stringify({ type: "done" }));
+            currentFileIndex++;
+            offset = 0;
+            bytesSinceLastAck = 0;
+            setProgress(0);
+
+            if (currentFileIndex < files.length) {
+              // send meta for next file and WAIT for ready before sending chunks
+              sendMetadata(files[currentFileIndex]);
+              waitingForReady = true;
+              break;
+            } else {
+              setIsTransferComplete(true);
+              console.log("All files transferred successfully");
+              return;
+            }
+          }
+
+          const chunk = file.slice(offset, offset + CHUNK_SIZE);
+          const buf = await chunk.arrayBuffer();
+
+          try {
+            dataChannel.send(buf);
+          } catch (err) {
+            console.error("Send failed:", err);
+            setTransferError("Failed to send chunk");
+            return;
+          }
+
+          offset += chunk.size;
+          bytesSinceLastAck += chunk.size;
+
+          const progressPercentage = Math.min(
+            Math.round((offset / file.size) * 100),
+            100
+          );
+          setProgress(progressPercentage);
+
+          if (bytesSinceLastAck >= BATCH_SIZE) {
+            waitingForAck = true;
+            break;
+          }
         }
-
-        const maxChunkSize = getOptimalChunkSize(file.size);
-        const chunk = file.slice(offset, offset + maxChunkSize);
-        const arrayBuffer = await chunk.arrayBuffer();
-
-        await sendArrayBuffer(arrayBuffer); // backpressure aware
-        offset += chunk.size;
-
-        const progressPercentage = Math.min(
-          Math.round((offset / file.size) * 100),
-          100
-        );
-        setProgress(progressPercentage);
-      } catch (error) {
-        console.error("Error in sendNextChunk:", error);
-        setTransferError(`Transfer failed: ${(error as Error).message}`);
+      } finally {
+        sending = false;
       }
     };
 
-    // handle incoming control messages from receiver
-    dataChannel.onmessage = (event) => {
-      const data = event.data;
-      if (typeof data === "string") {
-        try {
-          const msg = JSON.parse(data);
-          if (msg.type === "ack") {
-            sendNextChunk();
-          } else if (msg.type === "ready") {
-            sendNextChunk();
-          }
-        } catch {
-          // ignore
-        }
-      }
-    };
-
+    // Start by sending META only; do NOT start pump yet.
     dataChannel.onopen = () => {
+      console.log("Data channel open");
       setTransferError(null);
       setIsTransferComplete(false);
       if (files.length > 0) {
         sendMetadata(files[0]);
+        waitingForReady = true; // wait for receiver to reply "ready"
       }
     };
 
+    // Control messages from receiver: "ready" + "ack"
+    dataChannel.onmessage = (event) => {
+      const data = event.data;
+      if (typeof data !== "string") return;
+      try {
+        const msg = JSON.parse(data);
+        if (msg.type === "ready") {
+          // receiver created writer and is ready to receive chunks
+          waitingForReady = false;
+          pump();
+        } else if (msg.type === "ack") {
+          waitingForAck = false;
+          bytesSinceLastAck = 0;
+          // If receiver sent final ack it’s fine; pump will naturally complete.
+          pump();
+        }
+      } catch {
+        // ignore non-JSON control
+      }
+    };
+
+    dataChannel.onbufferedamountlow = () => {
+      pump();
+    };
+
+    // (Optional) be conservative with auto-recreate to avoid renegotiation churn
     dataChannel.onerror = (error) => {
       console.error("Data channel error:", error);
-      setTransferError(
-        `Transfer error: ${error.error?.message || "Unknown error"}`
-      );
-
-      // Attempt recovery for non-fatal errors
-      if (error.error?.name !== "OperationError") {
-        setTimeout(() => recoverTransfer(), 2000);
-      }
+      // You can choose to just surface the error instead of auto-recreate.
     };
 
     dataChannel.onclose = () => {
-      console.log("Data channel closed");
+      console.log(
+        "Data channel closed (reason: sender side  cleanup)",
+        pc.connectionState
+      );
+
       if (!isTransferComplete) {
         setTransferError("Data channel closed unexpectedly");
       }
@@ -274,48 +252,18 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
       }
     };
 
-    let isNegotiating = false;
-    pc.onnegotiationneeded = async () => {
-      if (isNegotiating) return;
-      isNegotiating = true;
-      try {
-        const offer = await pc.createOffer();
-        await pc.setLocalDescription(offer);
-        socket.send(
-          JSON.stringify({
-            event: "EVENT_OFFER",
-            shareCode: shareCodeRef.current,
-            clientId: clientCodeRef.current,
-            offer,
-          })
-        );
-      } catch (error) {
-        console.error("Error during WebRTC negotiation:", error);
-      } finally {
-        isNegotiating = false;
-      }
-    };
-
-    pc.onconnectionstatechange = () => {
-      console.log("PC state:", pc.connectionState);
-
-      if (pc.connectionState === "connected") {
-        console.log("WebRTC connection established");
-      } else if (
-        pc.connectionState === "disconnected" ||
-        pc.connectionState === "failed"
-      ) {
-        if (!isTransferComplete) {
-          setTransferError("Connection lost during transfer");
-          console.error("Connection lost before transfer completed");
-        }
-        pc.close();
-        pcRef.current = null;
-      }
-    };
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+    socket.send(
+      JSON.stringify({
+        event: "EVENT_OFFER",
+        shareCode: shareCodeRef.current,
+        clientId: clientCodeRef.current,
+        offer,
+      })
+    );
   };
 
-  // WebSocket + signaling setup
   useEffect(() => {
     if (socketRef.current) return;
     const socket = new WebSocket("wss://api.shipfilez.app");
@@ -384,14 +332,6 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
     };
 
     return () => {
-      if (socketRef.current) {
-        socketRef.current.close();
-        socketRef.current = null;
-      }
-      if (pcRef.current) {
-        pcRef.current.close();
-        pcRef.current = null;
-      }
       if (heartbeatIntervalRef.current) {
         clearInterval(heartbeatIntervalRef.current);
         heartbeatIntervalRef.current = null;
@@ -399,6 +339,19 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
+
+  // Add this useEffect to monitor connection state:
+  useEffect(() => {
+    const checkConnection = () => {
+      if (pcRef.current && pcRef.current.connectionState === "disconnected") {
+        console.log("Connection lost, attempting to reconnect...");
+        // Implement reconnection logic
+      }
+    };
+
+    const interval = setInterval(checkConnection, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="flex h-auto w-full flex-col-reverse items-center justify-end gap-8 px-4 pt-8 text-white md:flex-row-reverse md:items-start md:justify-center md:px-8 md:pt-16">
@@ -459,12 +412,7 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
             <div className="mt-4 rounded-lg bg-red-100 p-4 text-red-700">
               <p className="font-semibold">Transfer Error</p>
               <p className="text-sm">{transferError}</p>
-              <Button
-                className="mt-2 bg-red-600 hover:bg-red-700"
-                onClick={recoverTransfer}
-              >
-                Retry Transfer
-              </Button>
+              Retry Transfer
             </div>
           )}
 
