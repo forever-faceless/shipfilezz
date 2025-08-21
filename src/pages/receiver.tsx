@@ -280,10 +280,19 @@ const Receiver: React.FC<ReceiverProps> = () => {
                   dataChannel.send(JSON.stringify({ type: "ready" }));
                 } else if (parsed.type === "done") {
                   if (writerRef.current) {
+                    console.log("📥 Flushing remaining chunks before close...");
+
+                    // ✅ ensure all pending writes resolve
                     await writerRef.current.close();
-                    console.log("✅ File transfer completed");
                     writerRef.current = null;
+
+                    console.log("✅ File fully written to disk");
                   }
+
+                  // ✅ now safe to notify sender
+                  dataChannel.send(
+                    JSON.stringify({ type: "transfer-complete" })
+                  );
                 }
               } else if (message instanceof ArrayBuffer) {
                 chunkQueue.push(message);

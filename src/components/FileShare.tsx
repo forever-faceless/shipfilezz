@@ -134,7 +134,38 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
           }
 
           if (offset >= file.size) {
+            // ✅ Wait until all buffered chunks are flushed before sending "done"
+            await new Promise<void>((resolve) => {
+              const checkBuffer = () => {
+                if (dataChannel.bufferedAmount === 0) {
+                  resolve();
+                } else {
+                  setTimeout(checkBuffer, 50);
+                }
+              };
+              checkBuffer();
+            });
+
+            console.log("📤 Sending 'done' marker...");
             dataChannel.send(JSON.stringify({ type: "done" }));
+
+            // ✅ Now wait for receiver to confirm full completion
+            await new Promise<void>((resolve) => {
+              const onMessage = (event: MessageEvent) => {
+                try {
+                  const msg = JSON.parse(event.data);
+                  if (msg.type === "transfer-complete") {
+                    console.log("✅ Receiver confirmed completion");
+                    dataChannel.removeEventListener("message", onMessage);
+                    resolve();
+                  }
+                } catch {
+                  // ignore other messages
+                }
+              };
+              dataChannel.addEventListener("message", onMessage);
+            });
+
             currentFileIndex++;
             offset = 0;
             bytesSinceLastAck = 0;
@@ -142,11 +173,10 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
 
             if (currentFileIndex < files.length) {
               sendMetadata(files[currentFileIndex]);
-              waitingForReady = true;
-              break;
+              return pump(); // continue next file
             } else {
               setIsTransferComplete(true);
-              console.log("All files transferred successfully");
+              console.log("🎉 All files transferred successfully");
               return;
             }
           }
