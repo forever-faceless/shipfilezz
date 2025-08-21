@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Midground = () => {
   return (
     <div className="flex h-auto w-screen flex-col items-center justify-center gap-1 px-4 md:px-10">

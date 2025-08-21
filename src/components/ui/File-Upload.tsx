@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useDropzone } from "react-dropzone";
 import { cn } from "@/lib/utils";
@@ -34,6 +34,7 @@ export const FileUpload = ({
 
   const handleFileChange = (newFiles: File[]) => {
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     onChange && onChange(newFiles);
   };
 
