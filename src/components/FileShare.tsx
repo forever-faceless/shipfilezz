@@ -53,26 +53,26 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
   const createOffer = async () => {
     const rtcConfiguration = {
       iceServers: [
-        { urls: "stun:stun.relay.metered.ca:80" },
+        { urls: "stun:stun.l.google.com:19302" },
         {
           urls: "turn:global.relay.metered.ca:80",
-          username: "096620311d4630e63e7aa164",
-          credential: "vhSv/yxKuDdKj5XM",
+          username: import.meta.env.VITE_TURN_USERNAME,
+          credential: import.meta.env.VITE_TURN_CREDENTIAL,
         },
         {
           urls: "turn:global.relay.metered.ca:80?transport=tcp",
-          username: "096620311d4630e63e7aa164",
-          credential: "vhSv/yxKuDdKj5XM",
+          username: import.meta.env.VITE_TURN_USERNAME,
+          credential: import.meta.env.VITE_TURN_CREDENTIAL,
         },
         {
           urls: "turn:global.relay.metered.ca:443",
-          username: "096620311d4630e63e7aa164",
-          credential: "vhSv/yxKuDdKj5XM",
+          username: import.meta.env.VITE_TURN_USERNAME,
+          credential: import.meta.env.VITE_TURN_CREDENTIAL,
         },
         {
           urls: "turns:global.relay.metered.ca:443?transport=tcp",
-          username: "096620311d4630e63e7aa164",
-          credential: "vhSv/yxKuDdKj5XM",
+          username: import.meta.env.VITE_TURN_USERNAME,
+          credential: import.meta.env.VITE_TURN_CREDENTIAL,
         },
       ],
     };
@@ -86,17 +86,15 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
     const dataChannel = pc.createDataChannel("fileTransfer", { ordered: true });
     dataChannel.binaryType = "arraybuffer";
 
-    // ---- Config ----
-    const CHUNK_SIZE = 16 * 1024; // 16 KB
-    dataChannel.bufferedAmountLowThreshold = 64 * 1024; // 64 KB
-    const BATCH_SIZE = 1024 * 1024; // 1 MB (must match receiver ACK threshold)
+    const CHUNK_SIZE = 16 * 1024;
+    dataChannel.bufferedAmountLowThreshold = 64 * 1024;
+    const BATCH_SIZE = 1024 * 1024;
 
-    // ---- Transfer state ----
     let currentFileIndex = 0;
     let offset = 0;
     let sending = false;
     let waitingForAck = false;
-    let waitingForReady = true; // <- start gated until receiver sends "ready"
+    let waitingForReady = true;
     let bytesSinceLastAck = 0;
 
     const sendMetadata = (file: File) => {
@@ -135,7 +133,6 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
             return;
           }
 
-          // file finished: signal done, advance, send next meta, wait for "ready"
           if (offset >= file.size) {
             dataChannel.send(JSON.stringify({ type: "done" }));
             currentFileIndex++;
@@ -144,7 +141,6 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
             setProgress(0);
 
             if (currentFileIndex < files.length) {
-              // send meta for next file and WAIT for ready before sending chunks
               sendMetadata(files[currentFileIndex]);
               waitingForReady = true;
               break;
@@ -185,31 +181,27 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
       }
     };
 
-    // Start by sending META only; do NOT start pump yet.
     dataChannel.onopen = () => {
       console.log("Data channel open");
       setTransferError(null);
       setIsTransferComplete(false);
       if (files.length > 0) {
         sendMetadata(files[0]);
-        waitingForReady = true; // wait for receiver to reply "ready"
+        waitingForReady = true;
       }
     };
 
-    // Control messages from receiver: "ready" + "ack"
     dataChannel.onmessage = (event) => {
       const data = event.data;
       if (typeof data !== "string") return;
       try {
         const msg = JSON.parse(data);
         if (msg.type === "ready") {
-          // receiver created writer and is ready to receive chunks
           waitingForReady = false;
           pump();
         } else if (msg.type === "ack") {
           waitingForAck = false;
           bytesSinceLastAck = 0;
-          // If receiver sent final ack it’s fine; pump will naturally complete.
           pump();
         }
       } catch {
@@ -221,10 +213,8 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
       pump();
     };
 
-    // (Optional) be conservative with auto-recreate to avoid renegotiation churn
     dataChannel.onerror = (error) => {
       console.error("Data channel error:", error);
-      // You can choose to just surface the error instead of auto-recreate.
     };
 
     dataChannel.onclose = () => {
@@ -340,12 +330,10 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
 
-  // Add this useEffect to monitor connection state:
   useEffect(() => {
     const checkConnection = () => {
       if (pcRef.current && pcRef.current.connectionState === "disconnected") {
         console.log("Connection lost, attempting to reconnect...");
-        // Implement reconnection logic
       }
     };
 
@@ -407,12 +395,11 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
           </div>
           <Progress value={progress} className="w-full text-yellow-400" />
 
-          {/* Error and Status Messages */}
           {transferError && (
             <div className="mt-4 rounded-lg bg-red-100 p-4 text-red-700">
               <p className="font-semibold">Transfer Error</p>
               <p className="text-sm">{transferError}</p>
-              Retry Transfer
+              Refresh the page to try again.
             </div>
           )}
 
@@ -425,7 +412,6 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
         </div>
       </div>
 
-      {/* QR Code Container */}
       <div className="relative flex w-[70%] items-center justify-center md:w-auto">
         <QRCode
           bgColor="#ffffff"
