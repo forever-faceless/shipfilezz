@@ -72,6 +72,26 @@ body {
 .animate-shooting {
   animation: shooting 1s linear forwards;
 }
+
+.text-ffd500 {
+  color: #ffd500;
+}
+
+.bg-ffd500 {
+  background-color: #ffd500;
+}
+
+.bg-ffd500\/10 {
+  background-color: rgba(255, 213, 0, 0.1);
+}
+
+.hover\:bg-yellow-400:hover {
+  background-color: #fbbf24;
+}
+
+.hover\:text-yellow-300:hover {
+  color: #fde68a;
+}
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);

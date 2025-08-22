@@ -10,6 +10,7 @@ import Receiver from "./pages/receiver";
 import SEO from "./components/SEO";
 import NotFound from "./pages/NotFound";
 import Blog from "./pages/blog";
+import P2PFileSharing from "./pages/P2PFileSharing";
 
 const Layout: React.FC = () => {
   return (
@@ -34,6 +35,7 @@ const App: React.FC = () => {
         <Route path="privacy" element={<Privacy />} />
         <Route path="receiver" element={<Receiver />} />
         <Route path="blog" element={<Blog />} />
+        <Route path="/p2p-file-sharing" element={<P2PFileSharing />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
