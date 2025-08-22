@@ -26,7 +26,7 @@ const Model = () => {
           on the device that is sharing.
         </p>
         <Input
-          type="number"
+          type="text"
           placeholder="Enter the code"
           onChange={(e) => {
             setCode(e.target.value);
