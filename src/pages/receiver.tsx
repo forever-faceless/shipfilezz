@@ -401,7 +401,7 @@ const Receiver: React.FC<ReceiverProps> = () => {
 
   return (
     <div
-      className="relative mx-auto flex h-screen w-screen bg-slate-900 bg-cover bg-center"
+      className="relative w-screen mx-auto flex h-screen bg-slate-900 bg-cover bg-center"
       style={{
         backgroundImage:
           "url('https://res.cloudinary.com/da3j9iqkp/image/upload/v1730989736/iqgxciixwtfburooeffb.svg')",
