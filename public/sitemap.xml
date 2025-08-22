@@ -4,15 +4,23 @@
   <!-- Homepage -->
   <url>
     <loc>https://www.shipfilez.app/</loc>
-    <lastmod>2025-08-22</lastmod>
+    <lastmod>2025-08-22T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+  </url>
+
+  <!-- Blog -->
+  <url>
+    <loc>https://www.shipfilez.app/blog</loc>
+    <lastmod>2025-08-22T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
   </url>
 
   <!-- About -->
   <url>
     <loc>https://www.shipfilez.app/about</loc>
-    <lastmod>2025-08-22</lastmod>
+    <lastmod>2025-08-22T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -20,7 +28,7 @@
   <!-- Contact -->
   <url>
     <loc>https://www.shipfilez.app/contact</loc>
-    <lastmod>2025-08-22</lastmod>
+    <lastmod>2025-08-22T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -28,7 +36,7 @@
   <!-- Privacy Policy -->
   <url>
     <loc>https://www.shipfilez.app/privacy</loc>
-    <lastmod>2025-08-22</lastmod>
+    <lastmod>2025-08-22T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -36,7 +44,7 @@
   <!-- Nearby -->
   <url>
     <loc>https://www.shipfilez.app/nearby</loc>
-    <lastmod>2025-08-22</lastmod>
+    <lastmod>2025-08-22T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -44,9 +52,9 @@
   <!-- Receiver -->
   <url>
     <loc>https://www.shipfilez.app/receiver</loc>
-    <lastmod>2025-08-22</lastmod>
+    <lastmod>2025-08-22T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
 
 </urlset>
