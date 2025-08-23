@@ -216,7 +216,6 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Additional Contact Info */}
           <div className="rounded-2xl bg-slate-800/30 p-8 backdrop-blur-sm border border-slate-700/30 max-w-2xl mx-auto">
             <h3 className="mb-4 text-xl font-semibold text-blue-300">
               General Inquiries
