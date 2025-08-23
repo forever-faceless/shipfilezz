@@ -16,6 +16,50 @@ export default function P2PFileSharing() {
           content="P2P file sharing, peer to peer file transfer, send large files online, secure file sharing, encrypted file transfer, free file sharing, WebRTC file sharing, no size limit file transfer, private file transfer, instant file sharing"
         />
         <link rel="canonical" href="https://yourdomain.com/p2p-file-sharing" />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "Is P2P file sharing secure?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Yes. With end-to-end encryption and WebRTC, no one can intercept your files.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Can I send large files?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Absolutely! No file size limits — send gigabyte-sized videos and documents easily.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "How fast is it?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Peer-to-peer file sharing is typically faster than cloud uploads as it connects devices directly.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Do I need an account?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "No registration is required. Start sharing files instantly.",
+                  },
+                },
+              ],
+            }),
+          }}
+        />
       </Helmet>
 
       <main className="max-w-5xl mx-auto px-6 py-12 space-y-16">
@@ -241,49 +285,6 @@ export default function P2PFileSharing() {
       </footer>
 
       {/* JSON-LD Schema for FAQ */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: [
-              {
-                "@type": "Question",
-                name: "Is P2P file sharing secure?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Yes. With end-to-end encryption and WebRTC, no one can intercept your files.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "Can I send large files?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Absolutely! No file size limits — send gigabyte-sized videos and documents easily.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "How fast is it?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Peer-to-peer file sharing is typically faster than cloud uploads as it connects devices directly.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "Do I need an account?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "No registration is required. Start sharing files instantly.",
-                },
-              },
-            ],
-          }),
-        }}
-      />
     </div>
   );
 }
