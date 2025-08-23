@@ -17,6 +17,7 @@ export default function P2PFileSharing() {
         />
         <link rel="canonical" href="https://yourdomain.com/p2p-file-sharing" />
 
+        {/* JSON-LD FAQ with slightly different wording */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -26,34 +27,34 @@ export default function P2PFileSharing() {
               mainEntity: [
                 {
                   "@type": "Question",
-                  name: "Is P2P file sharing secure?",
+                  name: "Is my data safe when using P2P file sharing?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "Yes. With end-to-end encryption and WebRTC, no one can intercept your files.",
+                    text: "Yes. All files are encrypted end-to-end during transfer, ensuring only the intended recipient can access them.",
                   },
                 },
                 {
                   "@type": "Question",
-                  name: "Can I send large files?",
+                  name: "Can I transfer very large files?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "Absolutely! No file size limits — send gigabyte-sized videos and documents easily.",
+                    text: "Absolutely. Peer-to-peer transfers allow you to send large videos, documents, and datasets directly without size restrictions.",
                   },
                 },
                 {
                   "@type": "Question",
-                  name: "How fast is it?",
+                  name: "How does the speed compare to cloud uploads?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "Peer-to-peer file sharing is typically faster than cloud uploads as it connects devices directly.",
+                    text: "Direct device-to-device transfers are generally faster than uploading to cloud servers, especially for large files.",
                   },
                 },
                 {
                   "@type": "Question",
-                  name: "Do I need an account?",
+                  name: "Do I need to create an account?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "No registration is required. Start sharing files instantly.",
+                    text: "No account is required. You can start sending files instantly, without signing up or logging in.",
                   },
                 },
               ],
