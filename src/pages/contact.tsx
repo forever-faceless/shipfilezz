@@ -201,7 +201,7 @@ const Contact = () => {
               </a>
 
               <a
-                href="www.linkedin.com/in/mokshith-s"
+                href="https://www.linkedin.com/in/mokshith-s"
                 aria-label="LinkedIn"
                 className="group flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-800/50 backdrop-blur-sm transition-all duration-300 hover:bg-blue-700 hover:scale-110"
               >
