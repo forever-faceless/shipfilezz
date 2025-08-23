@@ -225,10 +225,10 @@ const Contact = () => {
               For general questions or support, please email:
             </p>
             <a
-              href="mailto:support@shipfilez.com"
+              href="mailto:support@mokshithmokshith7@gmail.com"
               className="text-lg font-medium text-blue-300 hover:text-blue-200 transition-colors duration-300"
             >
-              support@shipfilez.com
+              mokshithmokshith7@gmail.com
             </a>
           </div>
         </div>
