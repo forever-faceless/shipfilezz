@@ -451,7 +451,14 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
             )}
           </div>
           <Progress value={progress} className="w-full text-yellow-400" />
-
+          <div>
+            {progress > 0 && !isTransferComplete && !transferError && (
+              <p className="text-sm">
+                Transfer Progress: {progress}%{" "}
+                {progress === 100 ? " - Finalizing..." : ""}
+              </p>
+            )}
+          </div>
           {transferError && (
             <div className="mt-4 rounded-lg bg-red-100 p-4 text-red-700">
               <p className="font-semibold">Transfer Error</p>
