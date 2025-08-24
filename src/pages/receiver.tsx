@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { BiSolidCircle } from "react-icons/bi";
 import streamSaver from "streamsaver";
 import { useSearchParams } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 interface typeFileDetail {
   fileName: string[];
   fileLength: number;
@@ -43,6 +43,7 @@ const Receiver: React.FC<ReceiverProps> = () => {
   const totalFileSizeRef = useRef<number>(0);
   const ackCounterRef = useRef<number>(0);
   const ackThreshold = 1024 * 1024; // 1 MB
+  const navigate = useNavigate();
 
   const requestHostToSendOffer = async () => {
     console.log("Requesting host to send offer...");
@@ -81,7 +82,10 @@ const Receiver: React.FC<ReceiverProps> = () => {
   };
 
   useEffect(() => {
-    if (!shareCode) return;
+    if (!shareCode) {
+      navigate("/");
+      return;
+    }
     if (socketRef.current) return;
 
     const socket = new WebSocket("wss://api.shipfilez.app");
