@@ -61,7 +61,7 @@ export const HandBurger = () => {
             whileTap={{ scale: 0.9 }}
             className="cursor-pointer"
             onClick={() => {
-              router("/blogs");
+              router("/blog");
               setOpen(false);
             }}
           >
