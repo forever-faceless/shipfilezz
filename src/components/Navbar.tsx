@@ -46,9 +46,9 @@ export const Nav = () => {
             width={100}
             height={100}
             alt="Logo"
-            className="hidden lg:flex lg:w-28"
+            className="md:hidden lg:flex lg:w-28"
           />
-          <div className="hidden lg:flex text-2xl font-bold text-white ">
+          <div className="hidden md:hidden xl:flex text-2xl font-bold text-white ">
             ShipFilez
           </div>
         </Link>
