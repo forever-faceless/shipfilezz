@@ -82,7 +82,7 @@ const Contact = () => {
                   />
                   <div className="absolute bottom-0 left-0 right-0 p-4 text-center opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                     <a
-                      href="mailto:mokshithmokshith7@gmail.com"
+                      href="mailto:mokshith@shipfilez.app"
                       className="inline-block rounded-full bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500 transition-colors duration-300"
                     >
                       Send Email
@@ -94,10 +94,10 @@ const Contact = () => {
                   Developer / Founder
                 </p>
                 <a
-                  href="mailto:mokshithmokshith7@gmail.com"
+                  href="mailto:mokshith@shipfilez.app"
                   className="text-slate-400 hover:text-blue-300 transition-colors duration-300 text-sm"
                 >
-                  mokshithmokshith7@gmail.com
+                  mokshith@shipfilez.app
                 </a>
               </div>
 
@@ -224,10 +224,10 @@ const Contact = () => {
               For general questions or support, please email:
             </p>
             <a
-              href="mailto:support@mokshithmokshith7@gmail.com"
+              href="mailto:support@mokshith@shipfilez.app"
               className="text-lg font-medium text-blue-300 hover:text-blue-200 transition-colors duration-300"
             >
-              mokshithmokshith7@gmail.com
+              mokshith@shipfilez.app
             </a>
           </div>
         </div>
