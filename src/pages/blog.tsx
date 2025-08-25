@@ -17,7 +17,7 @@ const Blog = () => {
         authorName="Mokshith"
       />
 
-      <div className="min-h-screen w-screen pt-36 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+      <div className="min-h-screen w-screen pt-26 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
         <main className="max-w-5xl mx-auto px-6 py-12 space-y-10">
           {/* Title Section */}
           <div className="space-y-4">
