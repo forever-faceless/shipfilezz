@@ -27,7 +27,7 @@ export default function Home() {
                 Transfer files securely and seamlessly without a middleman.
               </h2>
             </div>
-            <div className="items-center justify-center">
+            <div className="items-center justify-center xl:-mt-40">
               <FileComponent />
             </div>
           </div>
@@ -103,7 +103,7 @@ export default function Home() {
       </div>
 
       {/* Midground Section */}
-      <div className="relative h-screen w-screen bg-[#062354]">
+      <div className="relative h-screen w-screen bg-[#062354] pt-24 md:pt-0">
         <Midground />
       </div>
 
