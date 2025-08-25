@@ -10,16 +10,12 @@ const FileComponent = () => {
   };
 
   return (
-    <div className="relative flex h-full flex-col items-center ">
-      <div className="mt-40 flex size-full items-start">
-        {uploadedFiles.length === 0 ? (
-          <FileUpload onChange={handleFileChange} />
-        ) : (
-          <div className="size-full">
-            <FileShare files={uploadedFiles} />
-          </div>
-        )}
-      </div>
+    <div className="w-full h-full">
+      {uploadedFiles.length === 0 ? (
+        <FileUpload onChange={handleFileChange} />
+      ) : (
+        <FileShare files={uploadedFiles} />
+      )}
     </div>
   );
 };

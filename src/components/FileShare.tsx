@@ -6,6 +6,7 @@ import { Input } from "./ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import { Copy } from "lucide-react";
 
 interface FileShareProps {
   files: File[];
@@ -432,10 +433,30 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
           <div className="flex flex-col gap-5">
             {!NearByShareCode ? (
               <Button
-                className="md:text-md h-10 w-full bg-yellow-400 text-sm font-bold text-black hover:bg-yellow-500 md:h-11 md:w-60"
+                className="relative h-14 w-full max-w-md bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-bold text-lg rounded-2xl shadow-lg hover:shadow-xl hover:from-yellow-500 hover:to-amber-600 transition-all duration-300 group overflow-hidden md:w-80"
                 onClick={RequestNearByShareCode}
               >
-                Share with nearby devices
+                {/* Animated background effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                <div className="flex items-center justify-center gap-3 relative z-10">
+                  <div className="relative">
+                    <svg
+                      className="w-6 h-6 group-hover:animate-pulse"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                      />
+                    </svg>
+                  </div>
+                  <span className="">Generate Share Code</span>
+                </div>
               </Button>
             ) : (
               <Button
@@ -444,6 +465,9 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
                 onClick={() => CopyText(NearByShareCode)}
               >
                 {NearByShareCode}
+                <span>
+                  <Copy />
+                </span>
               </Button>
             )}
           </div>

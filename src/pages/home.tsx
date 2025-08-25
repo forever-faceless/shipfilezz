@@ -15,17 +15,22 @@ export default function Home() {
         }}
       >
         {/* Left Section */}
-        <div className="w-full px-4 md:w-1/2 md:px-0">
+        <div className="w-full px-4 md:w-1/2 md:px-0 flex items-center justify-center">
           {/* Mobile View Text */}
-          <div className="absolute top-20 px-6 text-center md:hidden">
-            <h1 className="text-xl font-bold leading-snug text-white sm:text-2xl">
-              Share Files Instantly, Without Limits or Servers.
-            </h1>
-            <h2 className="text-sm font-light leading-relaxed text-gray-300 sm:text-base">
-              Transfer files securely and seamlessly without a middleman.
-            </h2>
+          <div className="w-full flex flex-col px-4 md:w-full md:px-0  justify-center items-center">
+            {/* Mobile View Text */}
+            <div className=" md:hidden ">
+              <h1 className="text-3xl sm:text-4xl font-extrabold leading-snug text-white">
+                Share Files Instantly, <br /> Without Limits or Servers.
+              </h1>
+              <h2 className="mt-2 text-lg sm:text-xl font-light leading-relaxed text-gray-300">
+                Transfer files securely and seamlessly without a middleman.
+              </h2>
+            </div>
+            <div className="items-center justify-center">
+              <FileComponent />
+            </div>
           </div>
-          <FileComponent />
         </div>
 
         {/* Right Section */}
