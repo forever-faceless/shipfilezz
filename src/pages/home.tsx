@@ -82,7 +82,7 @@ export default function Home() {
         </div>
 
         {/* Wave Component */}
-        <div className="absolute bottom-0 z-30 h-[20vh] w-full overflow-hidden sm:h-[25vh] md:h-[30vh] lg:h-[20vh] xxl:h-[30vh]">
+        <div className="absolute bottom-0 z-30 hidden md:flex w-full overflow-hidden sm:h-[25vh] md:h-[30vh] lg:h-[20vh] xxl:h-[30vh]">
           <Wave
             style={{ height: "100%" }}
             fill="#052454"
