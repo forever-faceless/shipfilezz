@@ -55,27 +55,18 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
     const rtcConfiguration = {
       iceServers: [
         {
-          urls: "stun:stun.relay.metered.ca:80",
+          urls: "stun:stun.l.google.com:19302", // Google's primary STUN
         },
         {
-          urls: "turn:global.relay.metered.ca:80",
-          username: "8ddeec9a508e4c03e00bf16c",
-          credential: "c3bueqeuUu8JvU8Y",
+          urls: "stun:stun1.l.google.com:19302", // Backup STUN
         },
         {
-          urls: "turn:global.relay.metered.ca:80?transport=tcp",
-          username: "8ddeec9a508e4c03e00bf16c",
-          credential: "c3bueqeuUu8JvU8Y",
+          urls: "stun:stun2.l.google.com:19302", // Backup STUN
         },
         {
-          urls: "turn:global.relay.metered.ca:443",
-          username: "8ddeec9a508e4c03e00bf16c",
-          credential: "c3bueqeuUu8JvU8Y",
-        },
-        {
-          urls: "turns:global.relay.metered.ca:443?transport=tcp",
-          username: "8ddeec9a508e4c03e00bf16c",
-          credential: "c3bueqeuUu8JvU8Y",
+          urls: "turn:relay1.expressturn.com:3480", // ExpressTurn relay
+          username: "000000002071130093",
+          credential: "aTlsOf4X59YBepzUeCxekYwQb9s=",
         },
       ],
     };
