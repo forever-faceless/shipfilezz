@@ -302,9 +302,7 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
 
   useEffect(() => {
     if (socketRef.current) return;
-    const socket = new WebSocket(
-      "https://shipfilez-backend-git-master-mokshs-projects.vercel.app/"
-    );
+    const socket = new WebSocket("https://shipfilez-backend.vercel.app/");
     socketRef.current = socket;
 
     socket.onopen = () => {
