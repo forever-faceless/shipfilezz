@@ -88,7 +88,7 @@ const Receiver: React.FC<ReceiverProps> = () => {
     }
     if (socketRef.current) return;
 
-    const socket = new WebSocket("wss://api.shipfilez.app");
+    const socket = new WebSocket("https://shipfilez-backend.onrender.com");
     socketRef.current = socket;
 
     socket.onopen = () => {
