@@ -41,13 +41,6 @@ export const Nav = () => {
     >
       <div>
         <Link to={"/"} className="absolute left-8 top-5 flex gap-4">
-          <img
-            src="https://res.cloudinary.com/da3j9iqkp/image/upload/v1730913696/qjfojuvybafoiuhqhr70.svg"
-            width={100}
-            height={100}
-            alt="Logo"
-            className="md:hidden lg:flex lg:w-28"
-          />
           <div className="hidden md:hidden xl:flex text-2xl font-bold text-white ">
             ShipFilez
           </div>
