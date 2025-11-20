@@ -357,34 +357,16 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
       }
     };
 
-    socket.onclose = (ev) => {
-      console.log("[WS] onclose", ev);
+    socket.onclose = () => {
       setIsConnected(false);
-      if (socketRef.current) return;
-      const socket = new WebSocket(
-        "wss://backend-service-707394683264.us-central1.run.app/"
-      );
-      socketRef.current = socket;
-
-      socket.onopen = () => {
-        setIsConnected(true);
-        socket.send(
-          JSON.stringify({
-            event: "EVENT_REQUEST_SHARE_CODE",
-            fileName: files.map((f) => f.name),
-            fileLength: files.length,
-          })
-        );
-
-        heartbeatIntervalRef.current = setInterval(() => {
-          if (socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify({ event: "EVENT_HEART_BEAT" }));
-          }
-        }, 10000);
-      };
+      if (heartbeatIntervalRef.current) {
+        clearInterval(heartbeatIntervalRef.current);
+        heartbeatIntervalRef.current = null;
+      }
     };
-    socket.onerror = (err) => {
-      console.error("[WS] onerror", err);
+
+    socket.onerror = (error) => {
+      console.error("WebSocket error:", error);
     };
 
     return () => {
