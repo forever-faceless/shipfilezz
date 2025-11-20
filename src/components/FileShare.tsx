@@ -357,16 +357,22 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
       }
     };
 
-    socket.onclose = () => {
+    socket.onclose = (ev) => {
+      console.warn("[WS] onclose fired", {
+        code: ev.code,
+        reason: ev.reason,
+        wasClean: ev.wasClean,
+        readyState: socket.readyState,
+        timestamp: Date.now(),
+      });
       setIsConnected(false);
       if (heartbeatIntervalRef.current) {
         clearInterval(heartbeatIntervalRef.current);
         heartbeatIntervalRef.current = null;
       }
     };
-
-    socket.onerror = (error) => {
-      console.error("WebSocket error:", error);
+    socket.onerror = (err) => {
+      console.error("[WS] onerror", err);
     };
 
     return () => {
