@@ -303,7 +303,7 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
   useEffect(() => {
     if (socketRef.current) return;
     const socket = new WebSocket(
-      "https://shipfilez-backend-production.up.railway.app/"
+      "https://backend-service-707394683264.us-central1.run.app/"
     );
     socketRef.current = socket;
 
