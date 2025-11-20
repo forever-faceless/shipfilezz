@@ -374,13 +374,6 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
     socket.onerror = (err) => {
       console.error("[WS] onerror", err);
     };
-
-    return () => {
-      if (heartbeatIntervalRef.current) {
-        clearInterval(heartbeatIntervalRef.current);
-        heartbeatIntervalRef.current = null;
-      }
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
 
