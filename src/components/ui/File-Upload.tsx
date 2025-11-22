@@ -53,7 +53,7 @@ export const FileUpload = ({
 
   return (
     <div
-      className="flex w-full h-full items-center justify-center"
+      className="flex w-full h-full items-center justify-center "
       {...getRootProps()}
     >
       <motion.div
@@ -79,10 +79,11 @@ export const FileUpload = ({
               damping: 20,
             }}
             className={cn(
-              "border-dash-custom relative group-hover/file:shadow-2xl z-40 bg-[#0f172b] flex flex-col items-center justify-center gap-4 h-[40vh] w-[60vw] md:w-[40vw] lg:w-[20vw] mx-auto rounded-3xl",
+              "border-dash-custom relative group-hover/file:shadow-2xl z-40 bg-[#0263eb] flex flex-col items-center justify-center gap-4 h-[40vh] w-[60vw] md:w-[40vw] lg:w-[20vw] mx-auto rounded-3xl",
               "border-2 border-dashed border-[#ffd500]/40 transition-all duration-300",
               "hover:shadow-lg hover:scale-[1.02] hover:border-[#ffd500]/70",
-              "hover:shadow-[#ffd500]/10 hover:bg-[#0f172b]/90"
+              "hover:shadow-[#ffd500]/10 hover:bg-[#0f172b]/90",
+              "bg-[#003B8E] border border-white/20 shadow-xl"
             )}
           >
             {isDragActive ? (
@@ -108,7 +109,7 @@ export const FileUpload = ({
                     width={120}
                     height={120}
                     alt="upload icon"
-                    className="filter brightness-0 invert"
+                    className="filter brightness-0 invert bg-zinc-950"
                   />
                 </motion.div>
                 <motion.div
@@ -155,14 +156,6 @@ export const FileUpload = ({
                 <div className="text-[#ffd500]/80 text-center text-sm">
                   or drag & drop here
                 </div>
-                <motion.div
-                  className="text-white text-lg text-center mt-4 px-6"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  Supports all file types • Unlimited
-                </motion.div>
               </motion.div>
             )}
 

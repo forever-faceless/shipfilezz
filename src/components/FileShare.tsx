@@ -28,6 +28,7 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
   );
   const [isTransferComplete, setIsTransferComplete] = useState(false);
   const [transferError, setTransferError] = useState<string | null>(null);
+  const [downloadedFilesCount, setDownloadedFilesCount] = useState<number>(0);
 
   const CopyText = (text: string) => {
     if (text) {
@@ -143,7 +144,6 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
             console.log("📤 Sending 'done' marker...");
             dataChannel.send(JSON.stringify({ type: "done" }));
 
-            // ✅ Now wait for receiver to confirm full completion
             await new Promise<void>((resolve) => {
               const onMessage = (event: MessageEvent) => {
                 try {
@@ -161,13 +161,14 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
             });
 
             currentFileIndex++;
+            setDownloadedFilesCount(currentFileIndex);
             offset = 0;
             bytesSinceLastAck = 0;
             setProgress(0);
 
             if (currentFileIndex < files.length) {
               sendMetadata(files[currentFileIndex]);
-              return pump(); // continue next file
+              return pump();
             } else {
               setIsTransferComplete(true);
               console.log("🎉 All files transferred successfully");
@@ -390,115 +391,174 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
   }, []);
 
   return (
-    <div className="flex h-auto w-full flex-col-reverse items-center justify-end gap-8 px-4 pt-8 text-white md:flex-row-reverse md:items-start md:justify-center md:px-8 md:pt-16">
-      {/* Text Container */}
-      <div className="flex w-full flex-col gap-6 md:w-2/5">
-        <div className="flex items-center gap-3 text-lg font-bold md:text-xl">
-          {isConnected ? (
-            <BiSolidCircle className="text-[#24cc3e]" />
-          ) : (
-            <BiSolidCircle className="text-[#f34f4f]" />
-          )}
-          <p>Status</p>
-        </div>
+    <div className="flex h-auto w-full flex-col-reverse md:flex-row items-center justify-center gap-8 px-4 md:px-10 pt-8 md:pt-16">
+      {/* LEFT: Status + Controls */}
+      <div className="flex-1 flex justify-center">
+        <div className="w-full max-w-xl space-y-6 rounded-3xl bg-slate-900/50 backdrop-blur-xl border border-white/15 px-5 py-6 sm:px-7 sm:py-8 shadow-2xl text-white">
+          {/* Status row */}
+          <div className="flex items-center gap-3 text-sm sm:text-base font-semibold">
+            <div
+              className={`
+            inline-flex items-center gap-2 rounded-full px-3 py-1
+            ${isConnected ? "bg-emerald-500/20" : "bg-rose-500/20"}
+          `}
+            >
+              <BiSolidCircle
+                className={isConnected ? "text-[#24cc3e]" : "text-[#f34f4f]"}
+              />
+              <span className="uppercase tracking-wide text-[0.7rem] sm:text-xs">
+                {isConnected ? "Connected" : "Disconnected"}
+              </span>
+            </div>
+            <span className="text-xs sm:text-sm text-white/80">
+              ShipFilez Host Panel
+            </span>
+          </div>
 
-        <div className="flex flex-col gap-6">
-          {shareCode ? (
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center justify-center gap-3">
+          {/* Share URL + Copy */}
+          <div className="space-y-3">
+            <p className="text-sm sm:text-base text-white">
+              Send this link to your receiver to start the transfer:
+            </p>
+
+            {shareCode ? (
+              <div className="flex items-center gap-3">
                 <Input
                   ref={urlRef}
-                  className="h-10 w-full rounded-lg bg-white px-2 text-sm text-black md:w-[85%] md:text-lg"
+                  className="h-11 w-full rounded-xl bg-white text-black text-xs sm:text-sm px-3 md:text-base"
                   value={`https://www.shipfilez.app/receiver?code=${shareCode}`}
                   readOnly
                 />
                 <button
-                  className="rounded-md text-xl text-white md:text-3xl"
+                  className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 border border-white/25 text-xl text-white md:text-2xl hover:bg-white/20 active:scale-95 transition"
                   onClick={() => CopyText(urlRef.current!.value)}
                 >
                   <BsCopy />
                 </button>
               </div>
-            </div>
-          ) : (
-            <div className="text-sm md:text-base">Waiting for message...</div>
-          )}
-          <div className="flex flex-col gap-5">
+            ) : (
+              <div className="rounded-xl border border-dashed border-white/30 bg-white/5 px-4 py-3 text-sm md:text-base text-white/85">
+                Waiting for share code… Generate one to get started.
+              </div>
+            )}
+          </div>
+
+          {/* Generate / Show Share Code */}
+          <div className="space-y-3">
+            <p className="text-xs sm:text-sm uppercase tracking-wide text-white/70">
+              Nearby share
+            </p>
             {!NearByShareCode ? (
               <Button
-                className="relative h-14 w-full max-w-md bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-bold text-lg rounded-2xl shadow-lg hover:shadow-xl hover:from-yellow-500 hover:to-amber-600 transition-all duration-300 group overflow-hidden md:w-80"
+                className="relative h-14 w-fit rounded-2xl bg-[#0263eb] px-6 text-white font-bold text-sm sm:text-lg shadow-lg hover:shadow-2xl transition-all duration-300 group overflow-hidden"
                 onClick={RequestNearByShareCode}
               >
-                {/* Animated background effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                <div className="flex items-center justify-center gap-3 relative z-10">
-                  <div className="relative">
-                    <svg
-                      className="w-6 h-6 group-hover:animate-pulse"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-                      />
-                    </svg>
-                  </div>
-                  <span className="">Generate Share Code</span>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10 flex items-center justify-center gap-3">
+                  <svg
+                    className="w-5 h-5 sm:w-6 sm:h-6 group-hover:animate-pulse"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                    />
+                  </svg>
+                  <span>Generate Nearby Share Code</span>
                 </div>
               </Button>
             ) : (
               <Button
-                className="h-12 w-full cursor-pointer items-center justify-center rounded-lg bg-yellow-400 text-base font-semibold text-black hover:bg-yellow-500 md:h-14 md:w-fit md:text-xl"
+                className="flex h-12 w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-yellow-400 px-4 text-sm sm:text-lg font-semibold text-black hover:bg-yellow-500 md:h-14"
                 ref={shareCodeCopyRef}
                 onClick={() => CopyText(NearByShareCode)}
               >
                 {NearByShareCode}
-                <span>
-                  <Copy />
-                </span>
+                <Copy className="w-4 h-4 sm:w-5 sm:h-5" />
               </Button>
             )}
           </div>
-          <Progress value={progress} className="w-full text-yellow-400" />
-          <div>
-            {progress > 0 && !isTransferComplete && !transferError && (
-              <p className="text-sm">
-                Transfer Progress: {progress}%{" "}
-                {progress === 100 ? " - Finalizing..." : ""}
-              </p>
-            )}
+
+          {/* Stats + Progress */}
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm md:text-base">
+              <div className="rounded-xl bg-white/5 px-3 py-2 border border-white/15">
+                <p className="text-white/70 text-[0.7rem] sm:text-xs uppercase tracking-wide">
+                  Files selected
+                </p>
+                <p className="text-lg sm:text-xl font-semibold text-white">
+                  {files.length}
+                </p>
+              </div>
+              <div className="rounded-xl bg-white/5 px-3 py-2 border border-white/15">
+                <p className="text-white/70 text-[0.7rem] sm:text-xs uppercase tracking-wide">
+                  Files delivered
+                </p>
+                <p className="text-lg sm:text-xl font-semibold text-white">
+                  {downloadedFilesCount}
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs sm:text-sm text-white/80">
+                <span>Transfer progress</span>
+                <span className="font-semibold">{progress}%</span>
+              </div>
+              <Progress value={progress} className="w-full" />
+              {progress > 0 && !isTransferComplete && !transferError && (
+                <p className="text-xs sm:text-sm text-white/85">
+                  Transfer in progress…{" "}
+                  {progress === 100 ? "Finalizing files on receiver…" : ""}
+                </p>
+              )}
+            </div>
           </div>
+
+          {/* Alerts */}
           {transferError && (
-            <div className="mt-4 rounded-lg bg-red-100 p-4 text-red-700">
-              <p className="font-semibold">Transfer Error</p>
-              <p className="text-sm">{transferError}</p>
-              Refresh the page to try again.
+            <div className="mt-2 rounded-xl bg-red-500/15 border border-red-400/60 p-4 text-red-100 text-sm sm:text-base">
+              <p className="font-semibold">Transfer error</p>
+              <p className="mt-1 text-xs sm:text-sm">{transferError}</p>
+              <p className="mt-1 text-xs sm:text-sm text-red-100/90">
+                Refresh the page to try again.
+              </p>
             </div>
           )}
 
           {isTransferComplete && (
-            <div className="mt-4 rounded-lg bg-green-100 p-4 text-green-700">
-              <p className="font-semibold">Transfer Complete!</p>
-              <p className="text-sm">All files were transferred successfully</p>
+            <div className="mt-2 rounded-xl bg-emerald-500/15 border border-emerald-400/60 p-4 text-emerald-100 text-sm sm:text-base">
+              <p className="font-semibold">Transfer complete!</p>
+              <p className="mt-1 text-xs sm:text-sm">
+                All files were transferred successfully.
+              </p>
             </div>
           )}
         </div>
       </div>
 
-      <div className="relative flex w-[70%] items-center justify-center md:w-auto">
-        <QRCode
-          bgColor="#ffffff"
-          fgColor="#000000"
-          style={{ height: "auto", width: "100%" }}
-          value={`https://www.shipfilez.app/receiver?code=${shareCode}`}
-          viewBox="0 0 256 256"
-          className="w-1/2 sm:w-2/3 md:w-1/3 lg:w-1/4 xl:w-1/5"
-        />
+      {/* RIGHT: QR Code */}
+      <div className="flex justify-center md:justify-end flex-1">
+        <div className="rounded-3xl bg-slate-900/50 backdrop-blur-xl border border-white/15 px-5 py-6 sm:px-7 sm:py-8 flex flex-col items-center gap-4 shadow-2xl text-white">
+          <p className="text-xs sm:text-sm uppercase tracking-wide text-white/80">
+            Scan to receive
+          </p>
+          <QRCode
+            bgColor="#ffffff"
+            fgColor="#000000"
+            style={{ height: "auto", width: "100%" }}
+            value={`https://www.shipfilez.app/receiver?code=${shareCode}`}
+            viewBox="0 0 256 256"
+            className="w-40 h-40 sm:w-52 sm:h-52 md:w-56 md:h-56"
+          />
+          <p className="text-[0.7rem] sm:text-xs text-white/80 text-center max-w-[14rem]">
+            Point your camera or QR scanner to open the receiver page instantly.
+          </p>
+        </div>
       </div>
     </div>
   );

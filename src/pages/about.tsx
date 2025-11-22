@@ -9,36 +9,29 @@ const About = () => {
         url="https://www.shipfilez.app/about"
       />
 
-      <div
-        className="relative min-h-screen w-full bg-slate-900 bg-cover bg-center bg-no-repeat px-4 pt-36 py-12 text-white sm:px-6 md:px-8 lg:px-12"
-        style={{
-          backgroundImage:
-            "url('https://res.cloudinary.com/da3j9iqkp/image/upload/v1730989736/iqgxciixwtfburooeffb.svg')",
-        }}
-      >
+      <div className="relative min-h-screen w-full bg-[#b5d8ff] bg-cover bg-center bg-no-repeat px-4 pt-36 py-12 text-white sm:px-6 md:px-8 lg:px-12">
         {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-slate-900/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 to-purple-600/10"></div>
 
         <div className="relative mx-auto max-w-4xl">
           {/* Header Section */}
           <div className="mb-16 text-center">
-            <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+            <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-[#0263eb]">
               About ShipFilez
             </h1>
-            <div className="mx-auto h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
           </div>
 
           {/* Introduction Section */}
           <section className="mb-16 transition-all duration-300 hover:scale-[1.01]">
-            <p className="text-lg leading-relaxed text-slate-200 sm:text-xl">
+            <p className="text-lg leading-relaxed text-slate-800 sm:text-xl">
               ShipFilez is a next-generation{" "}
-              <span className="font-semibold text-blue-300">
+              <span className="font-semibold text-blue-700">
                 secure peer-to-peer file sharing platform
               </span>{" "}
               that makes sending and receiving files simple, fast, and private.
               Unlike traditional cloud-based services, ShipFilez never stores
               your files on a server — ensuring{" "}
-              <span className="font-semibold text-blue-300">
+              <span className="font-semibold text-blue-700">
                 complete privacy and control over your data
               </span>
               .
@@ -47,8 +40,8 @@ const About = () => {
 
           {/* Unique Features Section */}
           <section className="mb-16">
-            <h2 className="mb-8 text-2xl font-semibold sm:text-3xl md:text-4xl flex items-center">
-              <span className="mr-3 text-blue-400">
+            <h2 className="mb-8 text-2xl font-semibold sm:text-3xl md:text-4xl flex items-center text-slate-800">
+              <span className="mr-3 text-blue-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8"
@@ -68,12 +61,12 @@ const About = () => {
             </h2>
 
             <div className="grid gap-6 md:grid-cols-2">
-              <div className="rounded-xl bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800/70">
+              <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg">
                 <div className="mb-4 flex items-center">
                   <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/20">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-blue-400"
+                      className="h-6 w-6 text-blue-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -86,22 +79,22 @@ const About = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold">
+                  <h3 className="text-lg font-semibold text-slate-800">
                     True Peer-to-Peer Connection
                   </h3>
                 </div>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   Data is transferred directly between devices with zero storage
                   on external servers.
                 </p>
               </div>
 
-              <div className="rounded-xl bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800/70">
+              <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg">
                 <div className="mb-4 flex items-center">
                   <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-purple-500/20">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-purple-400"
+                      className="h-6 w-6 text-purple-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -114,20 +107,22 @@ const About = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold">No Size Limits</h3>
+                  <h3 className="text-lg font-semibold text-slate-800">
+                    No Size Limits
+                  </h3>
                 </div>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   Send small documents or massive videos without worrying about
                   restrictions.
                 </p>
               </div>
 
-              <div className="rounded-xl bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800/70">
+              <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg">
                 <div className="mb-4 flex items-center">
                   <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-green-500/20">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-green-400"
+                      className="h-6 w-6 text-green-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -140,25 +135,25 @@ const About = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold">
+                  <h3 className="text-lg font-semibold text-slate-800">
                     End-to-End Encryption
                   </h3>
                 </div>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   Built on{" "}
-                  <span className="font-medium">
+                  <span className="font-medium text-green-700">
                     DTLS (Datagram Transport Layer Security)
                   </span>{" "}
                   for complete protection during transfer.
                 </p>
               </div>
 
-              <div className="rounded-xl bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800/70">
+              <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg">
                 <div className="mb-4 flex items-center">
                   <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-yellow-500/20">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-yellow-400"
+                      className="h-6 w-6 text-yellow-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -171,21 +166,21 @@ const About = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold">
+                  <h3 className="text-lg font-semibold text-slate-800">
                     Blazing-Fast Transfers
                   </h3>
                 </div>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   Optimized for speed and reliability worldwide.
                 </p>
               </div>
 
-              <div className="rounded-xl bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800/70 md:col-span-2">
+              <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg md:col-span-2">
                 <div className="mb-4 flex items-center">
                   <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-cyan-500/20">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-cyan-400"
+                      className="h-6 w-6 text-cyan-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -198,9 +193,11 @@ const About = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold">No Signup Needed</h3>
+                  <h3 className="text-lg font-semibold text-slate-800">
+                    No Signup Needed
+                  </h3>
                 </div>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   Start sharing instantly with zero setup or accounts.
                 </p>
               </div>
@@ -209,8 +206,8 @@ const About = () => {
 
           {/* Mission Section */}
           <section className="mb-16">
-            <h2 className="mb-8 text-2xl font-semibold sm:text-3xl md:text-4xl flex items-center">
-              <span className="mr-3 text-purple-400">
+            <h2 className="mb-8 text-2xl font-semibold sm:text-3xl md:text-4xl flex items-center text-slate-800">
+              <span className="mr-3 text-purple-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8"
@@ -229,9 +226,9 @@ const About = () => {
               Our Mission
             </h2>
 
-            <p className="mb-8 text-lg leading-relaxed text-slate-200 sm:text-xl">
+            <p className="mb-8 text-lg leading-relaxed text-slate-800 sm:text-xl">
               At ShipFilez, our mission is to create a{" "}
-              <span className="font-semibold text-purple-300">
+              <span className="font-semibold text-purple-700">
                 privacy-first file sharing experience
               </span>{" "}
               that empowers users to send and receive data without limits or
@@ -239,11 +236,11 @@ const About = () => {
             </p>
 
             <div className="grid gap-6 md:grid-cols-3">
-              <div className="rounded-xl border border-slate-700/50 p-6 text-center transition-all duration-300 hover:border-blue-500/30 hover:bg-blue-500/10">
+              <div className="rounded-xl border border-slate-300/50 p-6 text-center transition-all duration-300 hover:border-blue-500/50 hover:bg-blue-500/10 hover:shadow-lg">
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500/20">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-blue-400"
+                    className="h-8 w-8 text-blue-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -256,17 +253,19 @@ const About = () => {
                     />
                   </svg>
                 </div>
-                <h3 className="mb-2 text-xl font-semibold">Secure</h3>
-                <p className="text-slate-300">
+                <h3 className="mb-2 text-xl font-semibold text-slate-800">
+                  Secure
+                </h3>
+                <p className="text-slate-700">
                   Your files are always encrypted and protected.
                 </p>
               </div>
 
-              <div className="rounded-xl border border-slate-700/50 p-6 text-center transition-all duration-300 hover:border-purple-500/30 hover:bg-purple-500/10">
+              <div className="rounded-xl border border-slate-300/50 p-6 text-center transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-500/10 hover:shadow-lg">
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-500/20">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-purple-400"
+                    className="h-8 w-8 text-purple-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -279,17 +278,19 @@ const About = () => {
                     />
                   </svg>
                 </div>
-                <h3 className="mb-2 text-xl font-semibold">Simple</h3>
-                <p className="text-slate-300">
+                <h3 className="mb-2 text-xl font-semibold text-slate-800">
+                  Simple
+                </h3>
+                <p className="text-slate-700">
                   No complicated signups or bloated software.
                 </p>
               </div>
 
-              <div className="rounded-xl border border-slate-700/50 p-6 text-center transition-all duration-300 hover:border-green-500/30 hover:bg-green-500/10">
+              <div className="rounded-xl border border-slate-300/50 p-6 text-center transition-all duration-300 hover:border-green-500/50 hover:bg-green-500/10 hover:shadow-lg">
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/20">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-green-400"
+                    className="h-8 w-8 text-green-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -302,8 +303,10 @@ const About = () => {
                     />
                   </svg>
                 </div>
-                <h3 className="mb-2 text-xl font-semibold">Unlimited</h3>
-                <p className="text-slate-300">
+                <h3 className="mb-2 text-xl font-semibold text-slate-800">
+                  Unlimited
+                </h3>
+                <p className="text-slate-700">
                   Share what you want, when you want.
                 </p>
               </div>
@@ -312,8 +315,8 @@ const About = () => {
 
           {/* Who Can Use Section */}
           <section className="mb-16">
-            <h2 className="mb-8 text-2xl font-semibold sm:text-3xl md:text-4xl flex items-center">
-              <span className="mr-3 text-green-400">
+            <h2 className="mb-8 text-2xl font-semibold sm:text-3xl md:text-4xl flex items-center text-slate-800">
+              <span className="mr-3 text-green-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8"
@@ -332,49 +335,49 @@ const About = () => {
               Who Can Benefit From ShipFilez?
             </h2>
 
-            <p className="mb-8 text-lg leading-relaxed text-slate-200 sm:text-xl">
+            <p className="mb-8 text-lg leading-relaxed text-slate-800 sm:text-xl">
               ShipFilez is built for everyone who values{" "}
-              <span className="font-semibold text-green-300">
+              <span className="font-semibold text-green-700">
                 speed, privacy, and simplicity
               </span>
               :
             </p>
 
             <div className="grid gap-6 md:grid-cols-2">
-              <div className="rounded-xl bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800/70">
-                <h3 className="mb-3 text-xl font-semibold text-blue-300">
+              <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg">
+                <h3 className="mb-3 text-xl font-semibold text-blue-700">
                   Students & Professionals
                 </h3>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   Quickly exchange projects, research files, or presentations.
                 </p>
               </div>
 
-              <div className="rounded-xl bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800/70">
-                <h3 className="mb-3 text-xl font-semibold text-purple-300">
+              <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg">
+                <h3 className="mb-3 text-xl font-semibold text-purple-700">
                   Businesses
                 </h3>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   Share confidential documents securely without relying on
                   third-party servers.
                 </p>
               </div>
 
-              <div className="rounded-xl bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800/70">
-                <h3 className="mb-3 text-xl font-semibold text-green-300">
+              <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg">
+                <h3 className="mb-3 text-xl font-semibold text-green-700">
                   Content Creators
                 </h3>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   Send large videos, music, or design files without compression
                   or loss of quality.
                 </p>
               </div>
 
-              <div className="rounded-xl bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800/70">
-                <h3 className="mb-3 text-xl font-semibold text-yellow-300">
+              <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg">
+                <h3 className="mb-3 text-xl font-semibold text-yellow-700">
                   Everyday Users
                 </h3>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   Share photos, videos, and personal files with friends and
                   family worldwide.
                 </p>
@@ -384,8 +387,8 @@ const About = () => {
 
           {/* FAQ Section */}
           <section className="mb-16">
-            <h2 className="mb-8 text-2xl font-semibold sm:text-3xl md:text-4xl flex items-center">
-              <span className="mr-3 text-yellow-400">
+            <h2 className="mb-8 text-2xl font-semibold sm:text-3xl md:text-4xl flex items-center text-slate-800">
+              <span className="mr-3 text-yellow-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8"
@@ -405,31 +408,31 @@ const About = () => {
             </h2>
 
             <div className="space-y-6">
-              <div className="rounded-xl bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800/70">
-                <h3 className="mb-2 text-xl font-semibold text-blue-300">
+              <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg">
+                <h3 className="mb-2 text-xl font-semibold text-blue-700">
                   Is ShipFilez free?
                 </h3>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   Yes. ShipFilez is completely free to use with no hidden costs
                   or limitations.
                 </p>
               </div>
 
-              <div className="rounded-xl bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800/70">
-                <h3 className="mb-2 text-xl font-semibold text-purple-300">
+              <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg">
+                <h3 className="mb-2 text-xl font-semibold text-purple-700">
                   Do you store my files?
                 </h3>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   No. ShipFilez never stores your files on any server —
                   transfers are direct, peer-to-peer.
                 </p>
               </div>
 
-              <div className="rounded-xl bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800/70">
-                <h3 className="mb-2 text-xl font-semibold text-green-300">
+              <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg">
+                <h3 className="mb-2 text-xl font-semibold text-green-700">
                   Is ShipFilez secure?
                 </h3>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   Absolutely. Every transfer is encrypted with industry-standard
                   security protocols.
                 </p>

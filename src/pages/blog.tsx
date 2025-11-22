@@ -1,5 +1,3 @@
-// blog.tsx
-
 import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 
@@ -17,11 +15,11 @@ const Blog = () => {
         authorName="Mokshith"
       />
 
-      <div className="min-h-screen w-screen pt-26 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+      <div className="min-h-screen w-screen pt-26 bg-[#b5d8ff] text-slate-800">
         <main className="max-w-5xl mx-auto px-6 py-12 space-y-10">
           {/* Title Section */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2 text-ffd500">
+            <div className="flex items-center gap-2 text-blue-600">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -41,10 +39,10 @@ const Blog = () => {
               🚀 WebRTC File Transfer Using DataChannels
             </h1>
 
-            <div className="flex items-center gap-4 text-sm text-slate-400">
+            <div className="flex items-center gap-4 text-sm text-slate-600">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">
-                  <span className="text-xs">M</span>
+                <div className="w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center">
+                  <span className="text-xs text-white">M</span>
                 </div>
                 <span>Mokshith</span>
               </div>
@@ -54,14 +52,15 @@ const Blog = () => {
           </div>
 
           {/* Introduction */}
-          <div className="prose prose-lg prose-invert max-w-none">
-            <p className="text-slate-300 leading-relaxed">
+          <div className="prose prose-lg max-w-none">
+            <p className="text-slate-700 leading-relaxed">
               In this blog, I'll explain how I built a{" "}
-              <strong className="text-ffd500">
+              <strong className="text-blue-600">
                 peer-to-peer (P2P) file sharing system
               </strong>{" "}
-              using <strong className="text-ffd500">WebRTC DataChannels</strong>
-              . The journey started with a simple idea: securely transfer files
+              using{" "}
+              <strong className="text-blue-600">WebRTC DataChannels</strong>.
+              The journey started with a simple idea: securely transfer files
               between browsers without uploading them to a server.
             </p>
           </div>
@@ -72,7 +71,7 @@ const Blog = () => {
               <div className="bg-blue-500/20 p-2 rounded-lg">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-blue-400"
+                  className="h-6 w-6 text-blue-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -90,17 +89,17 @@ const Blog = () => {
               </h2>
             </div>
 
-            <div className="prose prose-invert max-w-none text-slate-300">
+            <div className="prose max-w-none text-slate-700">
               <p>
                 My first implementation allowed me to send file data over a
                 DataChannel. However, the received data was corrupted because I
                 wasn't handling raw{" "}
-                <code className="bg-slate-800 px-1.5 py-0.5 rounded text-ffd500">
+                <code className="bg-slate-200 px-1.5 py-0.5 rounded text-blue-600">
                   ArrayBuffer
                 </code>{" "}
                 chunks properly. After fixing that, I faced another problem:
                 converting large buffers into{" "}
-                <code className="bg-slate-800 px-1.5 py-0.5 rounded text-ffd500">
+                <code className="bg-slate-200 px-1.5 py-0.5 rounded text-blue-600">
                   Blob
                 </code>{" "}
                 objects consumed too much <strong>RAM memory</strong>, making
@@ -115,7 +114,7 @@ const Blog = () => {
               <div className="bg-green-500/20 p-2 rounded-lg">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-green-400"
+                  className="h-6 w-6 text-green-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -133,16 +132,16 @@ const Blog = () => {
               </h2>
             </div>
 
-            <div className="prose prose-invert max-w-none text-slate-300">
+            <div className="prose max-w-none text-slate-700">
               <p>
                 Browsers don't allow direct writing of DataChannel streams to
                 disk. To bypass this, I built a{" "}
-                <strong className="text-ffd500">
+                <strong className="text-blue-600">
                   browser sandbox server using Web Workers
                 </strong>
                 . This Worker intercepted the DataChannel, streamed the data,
                 and exposed it as an{" "}
-                <strong className="text-ffd500">HTTPS download</strong>. This
+                <strong className="text-blue-600">HTTPS download</strong>. This
                 avoided memory overload and made downloads much faster.
               </p>
             </div>
@@ -156,7 +155,7 @@ const Blog = () => {
                 <div className="bg-purple-500/20 p-2 rounded-lg">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-purple-400"
+                    className="h-6 w-6 text-purple-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -174,7 +173,7 @@ const Blog = () => {
                 </h2>
               </div>
 
-              <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+              <div className="bg-white/80 p-6 rounded-xl border border-slate-300 shadow-lg">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 800 250"
@@ -261,7 +260,7 @@ const Blog = () => {
                     y1="110"
                     x2="220"
                     y2="110"
-                    stroke="white"
+                    stroke="#374151"
                     strokeWidth="2"
                     markerEnd="url(#arrow)"
                   />
@@ -270,7 +269,7 @@ const Blog = () => {
                     y1="110"
                     x2="420"
                     y2="110"
-                    stroke="white"
+                    stroke="#374151"
                     strokeWidth="2"
                     markerEnd="url(#arrow)"
                   />
@@ -279,7 +278,7 @@ const Blog = () => {
                     y1="110"
                     x2="620"
                     y2="110"
-                    stroke="white"
+                    stroke="#374151"
                     strokeWidth="2"
                     markerEnd="url(#arrow)"
                   />
@@ -293,7 +292,7 @@ const Blog = () => {
                       refY="5"
                       orient="auto"
                     >
-                      <path d="M0,0 L10,5 L0,10 z" fill="white" />
+                      <path d="M0,0 L10,5 L0,10 z" fill="#374151" />
                     </marker>
                   </defs>
                 </svg>
@@ -306,7 +305,7 @@ const Blog = () => {
                 <div className="bg-orange-500/20 p-2 rounded-lg">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-orange-400"
+                    className="h-6 w-6 text-orange-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -324,7 +323,7 @@ const Blog = () => {
                 </h2>
               </div>
 
-              <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+              <div className="bg-white/80 p-6 rounded-xl border border-slate-300 shadow-lg">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 800 250"
@@ -411,7 +410,7 @@ const Blog = () => {
                     y1="110"
                     x2="220"
                     y2="110"
-                    stroke="white"
+                    stroke="#374151"
                     strokeWidth="2"
                     markerEnd="url(#arrow2)"
                   />
@@ -420,7 +419,7 @@ const Blog = () => {
                     y1="110"
                     x2="420"
                     y2="110"
-                    stroke="white"
+                    stroke="#374151"
                     strokeWidth="2"
                     markerEnd="url(#arrow2)"
                   />
@@ -429,7 +428,7 @@ const Blog = () => {
                     y1="110"
                     x2="620"
                     y2="110"
-                    stroke="white"
+                    stroke="#374151"
                     strokeWidth="2"
                     markerEnd="url(#arrow2)"
                   />
@@ -443,7 +442,7 @@ const Blog = () => {
                       refY="5"
                       orient="auto"
                     >
-                      <path d="M0,0 L10,5 L0,10 z" fill="white" />
+                      <path d="M0,0 L10,5 L0,10 z" fill="#374151" />
                     </marker>
                   </defs>
                 </svg>
@@ -457,7 +456,7 @@ const Blog = () => {
               <div className="bg-yellow-500/20 p-2 rounded-lg">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-yellow-400"
+                  className="h-6 w-6 text-yellow-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -484,10 +483,10 @@ const Blog = () => {
                 "Enable secure P2P transfers with WebRTC",
               ].map((item, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <div className="bg-ffd500/10 p-1 rounded-full mt-1">
+                  <div className="bg-blue-600/10 p-1 rounded-full mt-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 text-ffd500"
+                      className="h-4 w-4 text-blue-600"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >
@@ -498,7 +497,7 @@ const Blog = () => {
                       />
                     </svg>
                   </div>
-                  <span className="text-slate-300">{item}</span>
+                  <span className="text-slate-700">{item}</span>
                 </li>
               ))}
             </ul>
@@ -510,7 +509,7 @@ const Blog = () => {
               <div className="bg-red-500/20 p-2 rounded-lg">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-red-400"
+                  className="h-6 w-6 text-red-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -527,21 +526,21 @@ const Blog = () => {
             </div>
 
             <div className="space-y-6">
-              <div className="bg-slate-800/30 p-5 rounded-xl border border-slate-700">
-                <p className="font-semibold text-lg text-ffd500 mb-2">
+              <div className="bg-white/80 p-5 rounded-xl border border-slate-300 shadow-lg">
+                <p className="font-semibold text-lg text-blue-600 mb-2">
                   Q: Why not just upload files to a server?
                 </p>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   A: Using WebRTC allows direct browser-to-browser transfer
                   without server storage, ensuring privacy and speed.
                 </p>
               </div>
 
-              <div className="bg-slate-800/30 p-5 rounded-xl border border-slate-700">
-                <p className="font-semibold text-lg text-ffd500 mb-2">
+              <div className="bg-white/80 p-5 rounded-xl border border-slate-300 shadow-lg">
+                <p className="font-semibold text-lg text-blue-600 mb-2">
                   Q: How do you handle large files (2GB+)?
                 </p>
-                <p className="text-slate-300">
+                <p className="text-slate-700">
                   A: By chunking data into slices, handling SCTP backpressure,
                   and writing directly to disk instead of memory.
                 </p>
@@ -550,12 +549,12 @@ const Blog = () => {
           </section>
 
           {/* Conclusion */}
-          <div className="bg-slate-800/30 p-6 rounded-xl border border-slate-700">
-            <p className="text-slate-300">
+          <div className="bg-white/80 p-6 rounded-xl border border-slate-300 shadow-lg">
+            <p className="text-slate-700">
               This architecture powers{" "}
               <Link
                 to="https://shipfilez.app"
-                className="text-ffd500 hover:text-yellow-300 underline font-medium transition-colors"
+                className="text-blue-600 hover:text-blue-500 underline font-medium transition-colors"
               >
                 Shipfilez
               </Link>
@@ -566,8 +565,8 @@ const Blog = () => {
         </main>
 
         {/* Footer */}
-        <footer className="border-t border-slate-700 py-8 mt-12">
-          <div className="max-w-3xl mx-auto px-6 text-center text-slate-400">
+        <footer className="border-t border-slate-300 py-8 mt-12">
+          <div className="max-w-3xl mx-auto px-6 text-center text-slate-600">
             <p>© 2025 Shipfilez. All rights reserved.</p>
           </div>
         </footer>

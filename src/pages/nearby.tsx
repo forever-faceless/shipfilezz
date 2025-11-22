@@ -3,12 +3,17 @@ import Model from "@/components/Model";
 const NearBy = () => {
   return (
     <div
-      className="relative mx-auto flex h-screen w-screen overflow-y-hidden bg-slate-900 bg-cover bg-center"
+      className="
+relative min-h-screen w-full 
+flex items-center justify-center
+bg-cover bg-no-repeat bg-left md:bg-center
+"
       style={{
         backgroundImage:
-          "url('https://res.cloudinary.com/da3j9iqkp/image/upload/v1730989736/iqgxciixwtfburooeffb.svg')",
+          "url('https://res.cloudinary.com/du0gsc1fv/image/upload/v1763724105/background_j3lapz.png')",
       }}
     >
+      {" "}
       <Model />
     </div>
   );

@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 
 export default function P2PFileSharing() {
   return (
-    <div className="min-h-screen w-screen mx-auto bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+    <div className="min-h-screen w-screen mx-auto bg-[#b5d8ff] text-slate-800">
       <Helmet>
         <title>
           Secure P2P File Sharing | Encrypted Peer-to-Peer File Transfer
@@ -67,10 +67,10 @@ export default function P2PFileSharing() {
         {/* Hero Section */}
         <section className="text-center mb-16">
           <div className="flex justify-center mb-6">
-            <div className="bg-ffd500/10 p-3 rounded-full">
+            <div className="bg-blue-600/10 p-3 rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-10 w-10 text-ffd500"
+                className="h-10 w-10 text-blue-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -84,17 +84,17 @@ export default function P2PFileSharing() {
               </svg>
             </div>
           </div>
-          <h1 className="text-4xl font-extrabold text-ffd500 md:text-6xl">
+          <h1 className="text-4xl font-extrabold text-blue-600 md:text-6xl">
             Secure P2P File Sharing — Fast, Encrypted & Unlimited 🚀
           </h1>
-          <p className="mt-6 text-lg text-slate-300 md:text-xl max-w-3xl mx-auto">
+          <p className="mt-6 text-lg text-slate-700 md:text-xl max-w-3xl mx-auto">
             Experience{" "}
-            <strong className="text-ffd500">
+            <strong className="text-blue-600">
               instant, private, and unlimited peer-to-peer file transfers
             </strong>
             . Share files online directly between devices with{" "}
-            <strong className="text-ffd500">end-to-end encryption</strong> — no
-            servers, no restrictions, just pure speed and security.
+            <strong className="text-blue-600">end-to-end encryption</strong> —
+            no servers, no restrictions, just pure speed and security.
           </p>
         </section>
 
@@ -104,7 +104,7 @@ export default function P2PFileSharing() {
             <div className="bg-blue-500/20 p-2 rounded-lg">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-blue-400"
+                className="h-6 w-6 text-blue-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -117,7 +117,7 @@ export default function P2PFileSharing() {
                 />
               </svg>
             </div>
-            <h2 className="text-3xl font-bold text-ffd500">
+            <h2 className="text-3xl font-bold text-blue-600">
               Why Choose Peer-to-Peer File Sharing?
             </h2>
           </div>
@@ -151,12 +151,12 @@ export default function P2PFileSharing() {
             ].map((benefit, index) => (
               <li
                 key={index}
-                className="p-6 rounded-2xl bg-slate-800/50 border border-slate-700 hover:border-ffd500/30 transition-colors"
+                className="p-6 rounded-2xl bg-white/80 border border-slate-300 hover:border-blue-500/50 transition-colors shadow-lg"
               >
-                <h3 className="text-xl font-semibold mb-2 text-ffd500">
+                <h3 className="text-xl font-semibold mb-2 text-blue-600">
                   {benefit.icon} {benefit.title}
                 </h3>
-                <p className="text-slate-300">{benefit.description}</p>
+                <p className="text-slate-700">{benefit.description}</p>
               </li>
             ))}
           </ul>
@@ -168,7 +168,7 @@ export default function P2PFileSharing() {
             <div className="bg-green-500/20 p-2 rounded-lg">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-green-400"
+                className="h-6 w-6 text-green-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -181,26 +181,26 @@ export default function P2PFileSharing() {
                 />
               </svg>
             </div>
-            <h2 className="text-3xl font-bold text-ffd500">
+            <h2 className="text-3xl font-bold text-blue-600">
               What is Peer-to-Peer File Sharing?
             </h2>
           </div>
 
-          <div className="prose prose-invert max-w-none text-slate-300">
+          <div className="prose max-w-none text-slate-700">
             <p className="mb-4 text-lg leading-relaxed">
               Peer-to-peer (P2P) file sharing allows you to transfer files
               directly between devices without relying on centralized servers.
               This ensures faster transfers, maximum privacy, and no storage
               costs. Unlike cloud-based services,{" "}
-              <strong className="text-ffd500">
+              <strong className="text-blue-600">
                 peer-to-peer file transfer
               </strong>{" "}
               keeps your data safe and efficient.
             </p>
             <p className="mb-4 text-lg leading-relaxed">
               Our platform uses{" "}
-              <strong className="text-ffd500">WebRTC technology</strong> with
-              <strong className="text-ffd500"> end-to-end encryption</strong>,
+              <strong className="text-blue-600">WebRTC technology</strong> with
+              <strong className="text-blue-600"> end-to-end encryption</strong>,
               ensuring your files are private, encrypted, and secure from
               interception.
             </p>
@@ -213,7 +213,7 @@ export default function P2PFileSharing() {
             <div className="bg-purple-500/20 p-2 rounded-lg">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-purple-400"
+                className="h-6 w-6 text-purple-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -226,7 +226,7 @@ export default function P2PFileSharing() {
                 />
               </svg>
             </div>
-            <h2 className="text-3xl font-bold text-ffd500">
+            <h2 className="text-3xl font-bold text-blue-600">
               Frequently Asked Questions (P2P File Sharing)
             </h2>
           </div>
@@ -256,31 +256,31 @@ export default function P2PFileSharing() {
             ].map((faq, index) => (
               <div
                 key={index}
-                className="bg-slate-800/30 p-5 rounded-xl border border-slate-700"
+                className="bg-white/80 p-5 rounded-xl border border-slate-300 shadow-lg"
               >
-                <h3 className="font-semibold text-lg text-ffd500 mb-2">
+                <h3 className="font-semibold text-lg text-blue-600 mb-2">
                   {faq.question}
                 </h3>
-                <p className="text-slate-300">{faq.answer}</p>
+                <p className="text-slate-700">{faq.answer}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* Call to Action */}
-        <section className="text-center py-10 border-t border-slate-700">
-          <h2 className="text-2xl font-bold text-ffd500 mb-4">
+        <section className="text-center py-10 border-t border-slate-300">
+          <h2 className="text-2xl font-bold text-blue-600 mb-4">
             Ready to try secure peer-to-peer file sharing?
           </h2>
-          <button className="bg-ffd500 hover:bg-yellow-400 text-slate-900 font-bold py-3 px-8 rounded-lg transition-colors">
+          <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-lg transition-colors shadow-lg hover:shadow-blue-500/25">
             Start Secure File Transfer Now
           </button>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-700 py-8 mt-12">
-        <div className="max-w-6xl mx-auto px-6 text-center text-slate-400">
+      <footer className="border-t border-slate-300 py-8 mt-12">
+        <div className="max-w-6xl mx-auto px-6 text-center text-slate-600">
           <p>© 2025 Secure P2P File Sharing. All rights reserved.</p>
         </div>
       </footer>

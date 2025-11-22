@@ -41,7 +41,7 @@ export const Nav = () => {
     >
       <div>
         <Link to={"/"} className="absolute left-8 top-5 flex gap-4">
-          <div className="hidden md:hidden xl:flex text-2xl font-bold text-white ">
+          <div className="hidden md:hidden xl:flex text-2xl font-bold text-[#0163eb] ">
             ShipFilez
           </div>
         </Link>
@@ -71,7 +71,7 @@ const SlideTabs = () => {
           opacity: 0,
         }));
       }}
-      className="relative mx-auto hidden w-fit rounded-full border-2 border-[#ffffff] bg-[#003366] p-1 font-bold md:flex md:px-0 lg:px-6"
+      className="relative mx-auto hidden w-fit rounded-full border-2 border-[#ffffff] bg-[#0163eb] p-1 font-bold md:flex md:px-0 lg:px-6"
     >
       <Tab setPosition={setPosition} link="/about">
         <Link to="/about">ABOUT</Link>

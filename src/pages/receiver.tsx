@@ -35,6 +35,7 @@ const Receiver: React.FC<ReceiverProps> = () => {
   const heartbeatIntervalRef = useRef<ReturnType<typeof setInterval> | null>(
     null
   );
+  const [downloadedFilesCount, setDownloadedFilesCount] = useState<number>(0);
   const writerRef = useRef<WritableStreamDefaultWriter<Uint8Array> | null>(
     null
   );
@@ -241,6 +242,7 @@ const Receiver: React.FC<ReceiverProps> = () => {
                     final: true,
                   })
                 );
+                setDownloadedFilesCount((prev) => prev + 1);
               }
             } catch (err) {
               console.error("Error writing chunk:", err);
@@ -395,86 +397,191 @@ const Receiver: React.FC<ReceiverProps> = () => {
 
   return (
     <div
-      className="relative w-screen mx-auto flex h-screen bg-slate-900 bg-cover bg-center"
+      className="
+    relative min-h-screen w-full 
+    flex items-center justify-center 
+    bg-cover bg-no-repeat bg-left md:bg-center 
+    px-4 sm:px-6 py-10
+  "
       style={{
         backgroundImage:
-          "url('https://res.cloudinary.com/da3j9iqkp/image/upload/v1730989736/iqgxciixwtfburooeffb.svg')",
+          "url('https://res.cloudinary.com/du0gsc1fv/image/upload/v1763724105/background_j3lapz.png')",
       }}
     >
-      {/* Left Section */}
-      <div className="flex w-full flex-col items-start justify-center gap-10 px-10 md:w-1/2 md:px-10">
-        <h2 className="text-2xl font-extrabold text-white md:hidden">
-          Receive Files Seamlessly
-        </h2>
-        <p className="text-base leading-relaxed text-gray-300 md:hidden lg:text-lg">
-          Share and receive files instantly without interruptions.
-        </p>
-        <div className="text-center text-lg font-semibold text-white sm:text-xl">
-          {isConnected ? (
-            <div className="flex items-center justify-center gap-2">
-              <BiSolidCircle className="text-[#24cc3e]" />
-              <span>Connected</span>
+      {/* dark overlay to make content pop */}
+      <div className="absolute inset-0 bg-black/60 md:bg-black/50" />
+
+      {/* Card wrapper */}
+      <div className="relative z-10 w-full max-w-3xl">
+        <div
+          className="
+        bg-white backdrop-blur
+        rounded-2xl shadow-2xl 
+        border border-slate-200 
+        p-5 sm:p-6 md:p-8 
+        space-y-6
+      "
+        >
+          {/* Header + status */}
+          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="space-y-2 text-center md:text-left">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                Receive Files Seamlessly
+              </h2>
+              <p className="text-sm sm:text-base text-slate-600">
+                Share and receive files instantly without interruptions.
+              </p>
             </div>
-          ) : (
-            <div className="flex items-center justify-center gap-2">
-              <BiSolidCircle className="text-[#f34f4f]" />
-              <span>Disconnected</span>
+
+            {/* Connection status pill */}
+            <div className="flex justify-center md:justify-end">
+              {isConnected ? (
+                <div
+                  className="
+                inline-flex items-center gap-2 
+                rounded-full px-3 py-1 
+                bg-emerald-50 text-emerald-700 
+                text-xs sm:text-sm font-semibold
+              "
+                >
+                  <BiSolidCircle className="text-[#24cc3e]" />
+                  <span>Connected</span>
+                </div>
+              ) : (
+                <div
+                  className="
+                inline-flex items-center gap-2 
+                rounded-full px-3 py-1 
+                bg-rose-50 text-rose-700 
+                text-xs sm:text-sm font-semibold
+              "
+                >
+                  <BiSolidCircle className="text-[#f34f4f]" />
+                  <span>Disconnected</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* File details */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="text-base sm:text-lg font-semibold text-slate-900">
+                File details
+              </h3>
+              {fileDetail && (
+                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
+                  {fileDetail.fileName.length} file
+                  {fileDetail.fileName.length > 1 ? "s" : ""}
+                </span>
+              )}
+            </div>
+
+            <div
+              className="
+            h-28 max-h-36 w-full 
+            overflow-auto 
+            rounded-xl bg-slate-900 
+            p-3 sm:p-4 
+            text-white text-xs sm:text-sm 
+          "
+            >
+              {fileDetail ? (
+                <div className="flex flex-wrap gap-2">
+                  {fileDetail.fileName.map((name) => (
+                    <span
+                      key={name}
+                      className="
+                    rounded-md bg-white/10 
+                    px-2 py-1 
+                    break-all
+                  "
+                    >
+                      {name}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-slate-200">No file selected yet.</p>
+              )}
+            </div>
+          </div>
+
+          {/* Stats + download button */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="text-sm sm:text-base text-slate-700 space-y-1">
+              <p>
+                <span className="font-semibold text-slate-900">
+                  Files available:
+                </span>{" "}
+                {fileDetail?.fileLength ?? 0}
+              </p>
+              <p>
+                <span className="font-semibold text-slate-900">
+                  Files received:
+                </span>{" "}
+                {downloadedFilesCount}
+              </p>
+            </div>
+
+            <button
+              onClick={requestHostToSendOffer}
+              disabled={!shareCode || !isConnected}
+              className={`
+            h-11 w-full sm:w-40 
+            rounded-lg 
+            font-semibold 
+            shadow-md 
+            text-sm sm:text-base
+            transition-all 
+            ${
+              !shareCode || !isConnected
+                ? "bg-amber-300/60 text-black/60 cursor-not-allowed"
+                : "bg-amber-400 text-black hover:bg-amber-500 hover:shadow-lg"
+            }
+          `}
+            >
+              Download
+            </button>
+          </div>
+
+          {/* Progress */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between text-xs sm:text-sm text-slate-600">
+              <span>Transfer progress</span>
+              <span className="font-semibold text-slate-900">
+                {Number(percentage)}%
+              </span>
+            </div>
+            <div className="flex w-full flex-col items-center gap-3">
+              <ProgressBar value={Number(percentage)} />
+              {Number(percentage) === 100 && (
+                <p className="text-sm sm:text-base font-semibold text-emerald-600">
+                  File download complete!
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Connection lost alert */}
+          {!isConnected && (
+            <div className="mt-2 rounded-xl bg-yellow-50 px-4 py-3 text-yellow-900 shadow-sm border border-yellow-100">
+              <p className="font-semibold text-sm sm:text-base">
+                ⚠ Connection lost
+              </p>
+              <p className="text-xs sm:text-sm mt-1">
+                Your connection was interrupted. Please{" "}
+                <button
+                  onClick={() => window.location.reload()}
+                  className="underline font-medium hover:text-yellow-800"
+                >
+                  refresh
+                </button>{" "}
+                to try again.
+              </p>
             </div>
           )}
         </div>
-
-        {/* File Details */}
-        <div className="h-24 w-full overflow-auto rounded-md bg-gray-800 p-4 text-white md:w-3/4">
-          <h3 className="text-lg font-bold">File Details</h3>
-          <div className="mt-2 text-sm">
-            {fileDetail ? (
-              <div className="flex flex-1 flex-wrap gap-3">
-                {fileDetail.fileName.map((name) => (
-                  <p key={name}>{name}</p>
-                ))}
-              </div>
-            ) : (
-              <p>No file selected yet.</p>
-            )}
-          </div>
-        </div>
-
-        {/* Download Button */}
-        <button
-          onClick={requestHostToSendOffer}
-          className="h-10 w-32 rounded-md bg-amber-400 font-bold text-black shadow-lg transition hover:bg-amber-500"
-          disabled={!shareCode}
-        >
-          Download
-        </button>
-
-        {/* Progress */}
-        <div className="flex w-full flex-col items-center justify-center gap-4 text-lg font-semibold text-white sm:text-2xl md:w-3/4">
-          <ProgressBar value={Number(percentage)} />
-          {percentage}%
-        </div>
-
-        {Number(percentage) === 100 && (
-          <div className="text-green-500">
-            <p className="text-lg font-semibold">File Download Complete!</p>
-          </div>
-        )}
-
-        {!isConnected && (
-          <div className="mt-4 rounded-lg bg-yellow-100 px-4 py-3 text-yellow-800 shadow-md">
-            <p className="font-semibold">⚠ Connection Lost</p>
-            <p className="text-sm">
-              Your connection was interrupted. Please{" "}
-              <button
-                onClick={() => window.location.reload()}
-                className="text-yellow-900 underline hover:text-yellow-700"
-              >
-                refresh
-              </button>{" "}
-              to try again.
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );
