@@ -9,7 +9,7 @@ const About = () => {
         url="https://www.shipfilez.app/about"
       />
 
-      <div className="relative min-h-screen w-full bg-[#b5d8ff] bg-cover bg-center bg-no-repeat px-4 pt-36 py-12 text-white sm:px-6 md:px-8 lg:px-12">
+      <div className="relative min-h-screen w-full bg-white bg-cover bg-center bg-no-repeat px-4 pt-36 py-12 text-white sm:px-6 md:px-8 lg:px-12">
         {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 to-purple-600/10"></div>
 
@@ -17,7 +17,7 @@ const About = () => {
           {/* Header Section */}
           <div className="mb-16 text-center">
             <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-[#0263eb]">
-              About ShipFilez
+              About ShareFilez
             </h1>
           </div>
 

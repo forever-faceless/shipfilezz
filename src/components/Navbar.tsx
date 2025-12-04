@@ -49,7 +49,7 @@ export const Nav = () => {
 
       <SlideTabs />
       <Link to={"/"} className="hidden md:flex lg:hidden">
-        <HomeIcon size={40} className="text-yellow-400 text" />
+        <HomeIcon size={40} className="text-blue-600 text" />
       </Link>
       <HandBurger />
     </motion.div>
@@ -75,9 +75,6 @@ const SlideTabs = () => {
     >
       <Tab setPosition={setPosition} link="/about">
         <Link to="/about">ABOUT</Link>
-      </Tab>
-      <Tab setPosition={setPosition} link="/contact">
-        <Link to="/contact">CONTACT</Link>
       </Tab>
       <Tab setPosition={setPosition} link="/privacy">
         <Link to="/privacy">privacy</Link>

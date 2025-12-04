@@ -389,7 +389,7 @@ const Receiver: React.FC<ReceiverProps> = () => {
   const ProgressBar: React.FC<{ value: number }> = ({ value }) => (
     <div className="h-2.5 w-full rounded-full bg-gray-200">
       <div
-        className="h-2.5 rounded-full bg-amber-400"
+        className="h-2.5 rounded-full bg-blue-600"
         style={{ width: `${value}%` }}
       ></div>
     </div>
@@ -401,13 +401,8 @@ const Receiver: React.FC<ReceiverProps> = () => {
     relative min-h-screen w-full 
     flex items-center justify-center 
     bg-cover bg-no-repeat bg-left md:bg-center 
-    px-4 sm:px-6 py-10
-  "
-      style={{
-        backgroundImage:
-          "url('https://res.cloudinary.com/du0gsc1fv/image/upload/v1763724105/background_j3lapz.png')",
-      }}
-    >
+    px-4 sm:px-6 py-10 bg-white
+  ">
       {/* dark overlay to make content pop */}
       <div className="absolute inset-0 bg-black/60 md:bg-black/50" />
 
@@ -536,8 +531,8 @@ const Receiver: React.FC<ReceiverProps> = () => {
             transition-all 
             ${
               !shareCode || !isConnected
-                ? "bg-amber-300/60 text-black/60 cursor-not-allowed"
-                : "bg-amber-400 text-black hover:bg-amber-500 hover:shadow-lg"
+                ? "bg-blue-300/60 text-black/60 cursor-not-allowed"
+                : "bg-blue-400 text-black hover:bg-blue-500 hover:shadow-lg"
             }
           `}
             >
@@ -565,7 +560,7 @@ const Receiver: React.FC<ReceiverProps> = () => {
 
           {/* Connection lost alert */}
           {!isConnected && (
-            <div className="mt-2 rounded-xl bg-yellow-50 px-4 py-3 text-yellow-900 shadow-sm border border-yellow-100">
+            <div className="mt-2 rounded-xl bg-blue-50 px-4 py-3 text-blue-900 shadow-sm border border-blue-100">
               <p className="font-semibold text-sm sm:text-base">
                 ⚠ Connection lost
               </p>
@@ -573,7 +568,7 @@ const Receiver: React.FC<ReceiverProps> = () => {
                 Your connection was interrupted. Please{" "}
                 <button
                   onClick={() => window.location.reload()}
-                  className="underline font-medium hover:text-yellow-800"
+                  className="underline font-medium hover:text-blue-800"
                 >
                   refresh
                 </button>{" "}

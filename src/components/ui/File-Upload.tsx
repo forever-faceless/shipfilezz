@@ -104,13 +104,16 @@ export const FileUpload = ({
                     repeatType: "reverse",
                   }}
                 >
-                  <img
+                  {/* <img
                     src="https://res.cloudinary.com/da3j9iqkp/image/upload/v1730913391/t4bws90sqw3vosvrzsy9.svg"
-                    width={120}
-                    height={120}
+                    width={80}
+                    height={90}
                     alt="upload icon"
-                    className="filter brightness-0 invert bg-zinc-950"
-                  />
+                    className="opacity-90"
+                  /> */}
+                  <div className="text-white text-7xl">
+                    +
+                  </div>
                 </motion.div>
                 <motion.div
                   className="text-white text-center font-medium text-lg"

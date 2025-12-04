@@ -473,7 +473,7 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
               </Button>
             ) : (
               <Button
-                className="flex h-12 w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-yellow-400 px-4 text-sm sm:text-lg font-semibold text-black hover:bg-yellow-500 md:h-14"
+                className="flex h-12 w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 text-sm sm:text-lg font-semibold text-white hover:bg-blue-400 md:h-14"
                 ref={shareCodeCopyRef}
                 onClick={() => CopyText(NearByShareCode)}
               >

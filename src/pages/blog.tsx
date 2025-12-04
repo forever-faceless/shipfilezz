@@ -5,7 +5,7 @@ const Blog = () => {
   return (
     <>
       <SEO
-        title="WebRTC File Transfer Using DataChannels | ShipFilez Blog"
+        title="WebRTC File Transfer Using DataChannels | ShareFilez Blog"
         description="How I built a secure WebRTC file transfer system with DataChannels, handling backpressure and enabling large file downloads."
         url="https://shipfilez.app/blog"
         image="https://shipfilez.app/preview.png"
@@ -15,7 +15,7 @@ const Blog = () => {
         authorName="Mokshith"
       />
 
-      <div className="min-h-screen w-screen pt-26 bg-[#b5d8ff] text-slate-800">
+      <div className="min-h-screen w-screen pt-26 bg-white text-slate-800">
         <main className="max-w-5xl mx-auto px-6 py-12 space-y-10">
           {/* Title Section */}
           <div className="space-y-4">
@@ -42,9 +42,9 @@ const Blog = () => {
             <div className="flex items-center gap-4 text-sm text-slate-600">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center">
-                  <span className="text-xs text-white">M</span>
+                  <span className="text-xs text-white">P</span>
                 </div>
-                <span>Mokshith</span>
+                <span>Poorvik</span>
               </div>
               <span>•</span>
               <span>August 22, 2025</span>
@@ -470,7 +470,7 @@ const Blog = () => {
                 </svg>
               </div>
               <h2 className="text-2xl md:text-3xl font-semibold">
-                🔑 Key SEO Takeaways
+                🔑 Key Takeaways
               </h2>
             </div>
 
@@ -556,7 +556,7 @@ const Blog = () => {
                 to="https://shipfilez.app"
                 className="text-blue-600 hover:text-blue-500 underline font-medium transition-colors"
               >
-                Shipfilez
+                Sharefilez
               </Link>
               , my P2P file-sharing project. If you're interested in trying it,
               check it out!
@@ -567,7 +567,7 @@ const Blog = () => {
         {/* Footer */}
         <footer className="border-t border-slate-300 py-8 mt-12">
           <div className="max-w-3xl mx-auto px-6 text-center text-slate-600">
-            <p>© 2025 Shipfilez. All rights reserved.</p>
+            <p>© 2025 Sharefilez. All rights reserved.</p>
           </div>
         </footer>
       </div>

@@ -8,7 +8,7 @@ const Privacy = () => {
         description="Read ShipFilez's Privacy Policy to learn how we protect your data with peer-to-peer encryption and ensure safe, secure, and private file sharing."
         url="https://www.shipfilez.app/privacy"
       />
-      <div className="relative min-h-screen w-full bg-[#b5d8ff] pt-36 bg-cover bg-center bg-no-repeat px-4 py-16 text-slate-800 sm:px-6 md:px-8 lg:px-12">
+      <div className="relative min-h-screen w-full bg-white pt-36 bg-cover bg-center bg-no-repeat px-4 py-16 text-slate-800 sm:px-6 md:px-8 lg:px-12">
         <div className="relative mx-auto max-w-4xl">
           {/* Header Section */}
           <div className="mb-16 text-center">
@@ -163,7 +163,7 @@ const Privacy = () => {
             </div>
 
             {/* Contact Card */}
-            <div className="rounded-2xl bg-white/80 p-8 backdrop-blur-sm border border-cyan-200 shadow-lg transition-all duration-300 hover:border-cyan-500/50 hover:shadow-xl">
+            {/* <div className="rounded-2xl bg-white/80 p-8 backdrop-blur-sm border border-cyan-200 shadow-lg transition-all duration-300 hover:border-cyan-500/50 hover:shadow-xl">
               <div className="flex items-start mb-6">
                 <div className="mr-5 flex h-12 w-12 items-center justify-center rounded-full bg-cyan-500/20">
                   <svg
@@ -211,7 +211,7 @@ const Privacy = () => {
                   </a>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Last Updated */}

@@ -8,15 +8,10 @@ export default function Home() {
     <div>
       <div
         className="
-    relative min-h-screen w-full 
-    flex items-center 
-    bg-cover bg-no-repeat bg-left md:bg-center
-    bg-white
-  "
-        // style={{
-        //   backgroundImage:
-        //     "url('https://res.cloudinary.com/du0gsc1fv/image/upload/v1763724105/background_j3lapz.png')",
-        // }}
+          relative min-h-screen w-full 
+          flex items-center 
+          bg-cover bg-no-repeat bg-left md:bg-center
+          bg-[radial-gradient(circle,_#6E9BFD_0%,_#9BB6FE_18%,_#C7DAFF_38%,_#E0ECFF_50%,_#FFFFFF_100%)]"
       >
         {/* Dark overlay for better contrast */}
 
@@ -82,7 +77,7 @@ export default function Home() {
               rounded-xl
               bg-white
               border border-black 
-              text-black 
+              text-black
               text-sm sm:text-base 
               hover:bg-slate-200 
               transition
@@ -109,7 +104,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="w-full bg-[#4994fc] py-16 px-6 text-white md:px-20 lg:px-40">
+      <div className="w-full bg-blue-600 py-16 px-6 text-white md:px-20 lg:px-40">
         <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">
           The Future of Secure & Unlimited File Sharing
         </h2>
