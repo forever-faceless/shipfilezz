@@ -411,7 +411,7 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
               </span>
             </div>
             <span className="text-xs sm:text-sm text-white/80">
-              ShipFilez Host Panel
+              ShareFilez Host Panel
             </span>
           </div>
 
@@ -426,7 +426,7 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
                 <Input
                   ref={urlRef}
                   className="h-11 w-full rounded-xl bg-white text-black text-xs sm:text-sm px-3 md:text-base"
-                  value={`https://www.shipfilez.app/receiver?code=${shareCode}`}
+                  value={`https://sharefilez.vercel.app/receiver?code=${shareCode}`}
                   readOnly
                 />
                 <button
@@ -551,7 +551,7 @@ const FileShare: React.FC<FileShareProps> = ({ files }) => {
             bgColor="#ffffff"
             fgColor="#000000"
             style={{ height: "auto", width: "100%" }}
-            value={`https://www.shipfilez.app/receiver?code=${shareCode}`}
+            value={`https://sharefilez.vercel.app/receiver?code=${shareCode}`}
             viewBox="0 0 256 256"
             className="w-40 h-40 sm:w-52 sm:h-52 md:w-56 md:h-56"
           />

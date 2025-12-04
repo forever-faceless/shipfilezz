@@ -116,7 +116,7 @@ const NotFound = () => {
           className="text-lg text-slate-300 mb-10 max-w-md mx-auto"
           variants={itemVariants}
         >
-          The ShipFilez vessel you're looking for seems to have drifted off
+          The ShareFilez vessel you're looking for seems to have drifted off
           course. Don't worry, we'll help you navigate back to familiar space.
         </motion.p>
 

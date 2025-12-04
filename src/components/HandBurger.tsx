@@ -72,17 +72,6 @@ export const HandBurger = () => {
             whileTap={{ scale: 0.9 }}
             className="cursor-pointer"
             onClick={() => {
-              router("/contact");
-              setOpen(false);
-            }}
-          >
-            CONTACT
-          </motion.li>
-          <motion.li
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ scale: 0.9 }}
-            className="cursor-pointer"
-            onClick={() => {
               router("/privacy");
               setOpen(false);
             }}

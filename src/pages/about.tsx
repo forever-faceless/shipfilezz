@@ -4,9 +4,9 @@ const About = () => {
   return (
     <>
       <SEO
-        title="About ShipFilez | Secure & Unlimited File Sharing"
-        description="Discover what makes ShipFilez different — peer-to-peer, no size limits, and fully encrypted file sharing."
-        url="https://www.shipfilez.app/about"
+        title="About ShareFilez | Secure & Unlimited File Sharing"
+        description="Discover what makes ShareFilez different — peer-to-peer, no size limits, and fully encrypted file sharing."
+        url="https://sharefilez.vercel.app/about"
       />
 
       <div className="relative min-h-screen w-full bg-white bg-cover bg-center bg-no-repeat px-4 pt-36 py-12 text-white sm:px-6 md:px-8 lg:px-12">
@@ -24,12 +24,12 @@ const About = () => {
           {/* Introduction Section */}
           <section className="mb-16 transition-all duration-300 hover:scale-[1.01]">
             <p className="text-lg leading-relaxed text-slate-800 sm:text-xl">
-              ShipFilez is a next-generation{" "}
+              ShareFilez is a next-generation{" "}
               <span className="font-semibold text-blue-700">
                 secure peer-to-peer file sharing platform
               </span>{" "}
               that makes sending and receiving files simple, fast, and private.
-              Unlike traditional cloud-based services, ShipFilez never stores
+              Unlike traditional cloud-based services, ShareFilez never stores
               your files on a server — ensuring{" "}
               <span className="font-semibold text-blue-700">
                 complete privacy and control over your data
@@ -57,7 +57,7 @@ const About = () => {
                   />
                 </svg>
               </span>
-              What Makes ShipFilez Different?
+              What Makes ShareFilez Different?
             </h2>
 
             <div className="grid gap-6 md:grid-cols-2">
@@ -227,7 +227,7 @@ const About = () => {
             </h2>
 
             <p className="mb-8 text-lg leading-relaxed text-slate-800 sm:text-xl">
-              At ShipFilez, our mission is to create a{" "}
+              At ShareFilez, our mission is to create a{" "}
               <span className="font-semibold text-purple-700">
                 privacy-first file sharing experience
               </span>{" "}
@@ -332,11 +332,11 @@ const About = () => {
                   />
                 </svg>
               </span>
-              Who Can Benefit From ShipFilez?
+              Who Can Benefit From ShareFilez?
             </h2>
 
             <p className="mb-8 text-lg leading-relaxed text-slate-800 sm:text-xl">
-              ShipFilez is built for everyone who values{" "}
+              ShareFilez is built for everyone who values{" "}
               <span className="font-semibold text-green-700">
                 speed, privacy, and simplicity
               </span>
@@ -410,10 +410,10 @@ const About = () => {
             <div className="space-y-6">
               <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg">
                 <h3 className="mb-2 text-xl font-semibold text-blue-700">
-                  Is ShipFilez free?
+                  Is ShareFilez free?
                 </h3>
                 <p className="text-slate-700">
-                  Yes. ShipFilez is completely free to use with no hidden costs
+                  Yes. ShareFilez is completely free to use with no hidden costs
                   or limitations.
                 </p>
               </div>
@@ -423,14 +423,14 @@ const About = () => {
                   Do you store my files?
                 </h3>
                 <p className="text-slate-700">
-                  No. ShipFilez never stores your files on any server —
+                  No. ShareFilez never stores your files on any server —
                   transfers are direct, peer-to-peer.
                 </p>
               </div>
 
               <div className="rounded-xl bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-lg">
                 <h3 className="mb-2 text-xl font-semibold text-green-700">
-                  Is ShipFilez secure?
+                  Is ShareFilez secure?
                 </h3>
                 <p className="text-slate-700">
                   Absolutely. Every transfer is encrypted with industry-standard

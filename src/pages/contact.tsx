@@ -4,9 +4,9 @@ const Contact = () => {
   return (
     <>
       <SEO
-        title="Contact ShipFilez | Get in Touch"
-        description="Have questions or feedback? Contact the ShipFilez team to learn more about our secure and unlimited peer-to-peer file sharing service."
-        url="https://www.shipfilez.app/contact"
+        title="Contact ShareFilez | Get in Touch"
+        description="Have questions or feedback? Contact the ShareFilez team to learn more about our secure and unlimited peer-to-peer file sharing service."
+        url="https://sharefilez.vercel.app/contact"
       />
       <div className="relative min-h-screen w-full pt-36 bg-[#0263eb] bg-cover bg-center bg-no-repeat px-4 py-16 text-slate-800 sm:px-6 md:px-8 lg:px-12">
         {/* Overlay for better text readability */}

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.shipfilez.app/sitemap.xml
+Sitemap: https://www.sharefilez.app/sitemap.xml

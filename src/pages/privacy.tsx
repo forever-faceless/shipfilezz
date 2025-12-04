@@ -4,9 +4,9 @@ const Privacy = () => {
   return (
     <>
       <SEO
-        title="Privacy Policy | ShipFilez"
-        description="Read ShipFilez's Privacy Policy to learn how we protect your data with peer-to-peer encryption and ensure safe, secure, and private file sharing."
-        url="https://www.shipfilez.app/privacy"
+        title="Privacy Policy | ShareFilez"
+        description="Read ShareFilez's Privacy Policy to learn how we protect your data with peer-to-peer encryption and ensure safe, secure, and private file sharing."
+        url="https://sharefilez.vercel.app/privacy"
       />
       <div className="relative min-h-screen w-full bg-white pt-36 bg-cover bg-center bg-no-repeat px-4 py-16 text-slate-800 sm:px-6 md:px-8 lg:px-12">
         <div className="relative mx-auto max-w-4xl">
@@ -16,7 +16,7 @@ const Privacy = () => {
               Privacy Policy
             </h1>{" "}
             <p className="text-xl text-slate-700 max-w-2xl mx-auto">
-              Your privacy matters to us. We built ShipFilez with a fundamental
+              Your privacy matters to us. We built ShareFilez with a fundamental
               principle: your data belongs to you, not to us.
             </p>
           </div>

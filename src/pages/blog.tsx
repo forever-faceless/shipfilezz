@@ -7,8 +7,8 @@ const Blog = () => {
       <SEO
         title="WebRTC File Transfer Using DataChannels | ShareFilez Blog"
         description="How I built a secure WebRTC file transfer system with DataChannels, handling backpressure and enabling large file downloads."
-        url="https://shipfilez.app/blog"
-        image="https://shipfilez.app/preview.png"
+        url="https://sharefilez.vercel.app/blog"
+        image="https://sharefilez.vercel.app/preview.png"
         type="article"
         publishedTime="2025-08-22"
         modifiedTime="2025-08-22"
@@ -553,7 +553,7 @@ const Blog = () => {
             <p className="text-slate-700">
               This architecture powers{" "}
               <Link
-                to="https://shipfilez.app"
+                to="https://sharefilez.vercel.app/"
                 className="text-blue-600 hover:text-blue-500 underline font-medium transition-colors"
               >
                 Sharefilez
