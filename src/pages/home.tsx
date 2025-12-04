@@ -11,11 +11,12 @@ export default function Home() {
     relative min-h-screen w-full 
     flex items-center 
     bg-cover bg-no-repeat bg-left md:bg-center
+    bg-white
   "
-        style={{
-          backgroundImage:
-            "url('https://res.cloudinary.com/du0gsc1fv/image/upload/v1763724105/background_j3lapz.png')",
-        }}
+        // style={{
+        //   backgroundImage:
+        //     "url('https://res.cloudinary.com/du0gsc1fv/image/upload/v1763724105/background_j3lapz.png')",
+        // }}
       >
         {/* Dark overlay for better contrast */}
 
@@ -47,14 +48,14 @@ export default function Home() {
 
                 <div className="mt-4">
                   Without{" "}
-                  <span className="bg-white rounded-xl p-1">Limits</span>.
+                  <span className="bg-white border-black border-2 rounded-xl p-1">Limits</span>.
                 </div>
               </h1>
               <br />
 
               <p className="text-base sm:text-lg text-black max-w-lg mx-auto md:mx-0">
                 Fast, secure, and completely server-free file transfers with{" "}
-                <span className="font-semibold">ShipFilez</span>.
+                <span className="font-semibold">ShareFilez</span>.
               </p>
 
               {/* CTA buttons (optional, remove if not needed) */}
@@ -63,12 +64,12 @@ export default function Home() {
                   className="
               px-5 py-2.5 
               rounded-xl 
-              bg-white 
-              text-slate-900 
+              bg-blue-600 
+              text-white 
               text-sm sm:text-base 
               font-semibold 
               shadow-lg shadow-black/30 
-              hover:bg-slate-100 
+              hover:bg-blue-800 
               transition
             "
                 >
@@ -79,11 +80,11 @@ export default function Home() {
                   className="
               px-5 py-2.5 
               rounded-xl
-              bg-yellow-400
+              bg-white
               border border-black 
               text-black 
               text-sm sm:text-base 
-              hover:bg-white/10 
+              hover:bg-slate-200 
               transition
             "
                 >

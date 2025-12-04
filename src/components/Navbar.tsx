@@ -41,8 +41,8 @@ export const Nav = () => {
     >
       <div>
         <Link to={"/"} className="absolute left-8 top-5 flex gap-4">
-          <div className="hidden md:hidden xl:flex text-2xl font-bold text-[#0163eb] ">
-            ShipFilez
+          <div className="hidden md:hidden xl:flex text-2xl font-bold text-blue-600">
+            ShareFilez
           </div>
         </Link>
       </div>
@@ -71,7 +71,7 @@ const SlideTabs = () => {
           opacity: 0,
         }));
       }}
-      className="relative mx-auto hidden w-fit rounded-full border-2 border-[#ffffff] bg-[#0163eb] p-1 font-bold md:flex md:px-0 lg:px-6"
+      className="relative mx-auto hidden w-fit rounded-full border-2 border-blue-800 bg-[#0163eb] p-1 font-bold md:flex md:px-0 lg:px-6"
     >
       <Tab setPosition={setPosition} link="/about">
         <Link to="/about">ABOUT</Link>
@@ -132,7 +132,7 @@ const Cursor = ({ position }: { position: Position }) => {
       animate={{
         ...position,
       }}
-      className="absolute z-0 h-7 rounded-full bg-yellow-400 md:h-12"
+      className="absolute z-0 h-7 rounded-full bg-blue-200 md:h-12"
     />
   );
 };

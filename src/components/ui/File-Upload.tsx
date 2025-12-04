@@ -79,11 +79,11 @@ export const FileUpload = ({
               damping: 20,
             }}
             className={cn(
-              "border-dash-custom relative group-hover/file:shadow-2xl z-40 bg-[#0263eb] flex flex-col items-center justify-center gap-4 h-[40vh] w-[60vw] md:w-[40vw] lg:w-[20vw] mx-auto rounded-3xl",
+              "border-dash-custom relative group-hover/file:shadow-2xl z-40 bg-blue-800 flex flex-col items-center justify-center gap-4 h-[40vh] w-[60vw] md:w-[40vw] lg:w-[20vw] mx-auto rounded-3xl",
               "border-2 border-dashed border-[#ffd500]/40 transition-all duration-300",
               "hover:shadow-lg hover:scale-[1.02] hover:border-[#ffd500]/70",
-              "hover:shadow-[#ffd500]/10 hover:bg-[#0f172b]/90",
-              "bg-[#003B8E] border border-white/20 shadow-xl"
+              "hover:shadow-[#ffd500]/10 hover:bg-blue-900",
+              "bg-blue-800 border border-white/20 shadow-xl"
             )}
           >
             {isDragActive ? (
@@ -113,7 +113,7 @@ export const FileUpload = ({
                   />
                 </motion.div>
                 <motion.div
-                  className="text-[#ffd500] text-center font-medium text-lg"
+                  className="text-white text-center font-medium text-lg"
                   initial={{ y: 10, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.1 }}
@@ -121,7 +121,7 @@ export const FileUpload = ({
                   Drop your files here
                 </motion.div>
                 <motion.div
-                  className="text-[#ffd500]/80 text-center text-sm mt-2"
+                  className="text-white text-center text-sm mt-2"
                   initial={{ y: 10, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.1 }}
@@ -142,18 +142,21 @@ export const FileUpload = ({
                     transition: { duration: 0.2 },
                   }}
                 >
-                  <img
+                  {/* <img
                     src="https://res.cloudinary.com/da3j9iqkp/image/upload/v1730913391/t4bws90sqw3vosvrzsy9.svg"
                     width={80}
                     height={90}
                     alt="upload icon"
                     className="opacity-90"
-                  />
+                  /> */}
+                    <div className="text-white text-7xl">
+                      +
+                    </div>
                 </motion.div>
-                <div className="text-[#ffd500] text-center font-medium text-xl">
+                <div className="text-white text-center font-medium text-xl">
                   Upload Files
                 </div>
-                <div className="text-[#ffd500]/80 text-center text-sm">
+                <div className="text-white text-center text-sm">
                   or drag & drop here
                 </div>
               </motion.div>
